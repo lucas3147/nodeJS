@@ -1,0 +1,9 @@
+Ferramentas/bibliotecas para ajudar a programar os nossos projetos:
+
+	npm install --save-dev @types/node
+
+	Ele cria a pasta chamada node_modules
+
+	Por ser uma pasta pesada, não é recomendado subir ela para o repositório, pode excluir e rodar 
+	o coomando "npm install" que ele vai ler as dependências do projeto incluídas no tsconfig e restaurar 
+	os arquivos
