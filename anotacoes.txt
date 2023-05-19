@@ -1,4 +1,4 @@
-Ferramentas/bibliotecas para ajudar a programar os nossos projetos:
+FERRAMENTAS/BIBLIOTECAS PARA AJUDAR A PROGRAMAR OS NOSSOS PROJETOS:
 
 	npm install --save-dev @types/node
 
@@ -7,3 +7,91 @@ Ferramentas/bibliotecas para ajudar a programar os nossos projetos:
 	Por ser uma pasta pesada, não é recomendado subir ela para o repositório, pode excluir e rodar 
 	o coomando "npm install" que ele vai ler as dependências do projeto incluídas no tsconfig e restaurar 
 	os arquivos
+
+SCRIPTS DO PACKAGE.JSON
+
+	Podemos colocar dentro desse objeto, podemos colocar atalhos para executar comandos
+
+ENTENDENDO IMPORT/EXPORT EM COMMONJS
+
+	Existem duas formas de trabalhar com Import/Export
+
+	MODOS DE IMPORTAÇÃO E EXPORTAÇÃO:
+
+	IMPORTAÇÃO
+
+		Clássico:
+
+			const Object = require('./caminho');
+
+		Moderno
+
+			Import * as Object from './caminho'		(importa tudo)
+
+			Import {function1, function2, function3} from './caminho'
+
+			Import Object from './caminho'
+
+	EXPORTAÇÃO
+
+		Clássico:
+
+			module.exports.function1 = function1
+			module.exports.function2 = function2
+
+		Moderno
+
+			exports function function_name() {
+
+			}
+
+			export default Object_name {
+				property1,
+				property2,
+				property3,
+			}
+
+IMPORTANDO ARQUIVOS TERCEIROS
+
+	baixamos a biblioteca, digitando no terminal:
+
+		npm install validator
+
+	Depois importar
+
+		import Validator from 'validator'
+
+	Algumas bibliotecas disponiblizam a intalação para auxilios de tipos com o typescript
+
+		npm install --save-dev @type/validator
+
+CONHECENDO O NODEMON
+
+	Biblioteca de monitoramento de arquivos, ao modificar um arquivo ela roda novamente,
+	facilita para não termos que o código javascript toda vez que alteramos algo
+
+USANDO NODEMON COM TYPESCRIPT
+
+	Vamos agora diminuir a quantidade de terminais que usamos num projeto
+
+	A partir de agora, ao invés de usarmos 2 terminais, vamos usar apenas um, com a biblioteca ts-node
+
+	INSTALANDO
+
+		npm install -g ts-node
+
+	COMO USAR..
+
+		Podemos usá-lo para rodar códigos typescript ao invés de javascript, co ts-node
+
+			ts-node src/index.ts
+
+	Porém ainda não é o que queremos! Precisamos de algo que faça o mesmo, porém monitorando as alterações
+	feitas nos arquivos.
+
+	Isso é possível com a nova versão do nodemon, use o comando:
+
+		nodemon src/index.ts
+
+			Quando o nodemon indentificar o arquivo typescript, ao invés de ele rodar o comando node,
+			ele irá rodar o comando ts-node!
