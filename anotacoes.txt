@@ -209,9 +209,20 @@ INTRODUZINDO TEMPLATE ENGINES
 			res.send(index.html);
 		});
 
-INSTALANDO E CONFIGURANDO O mustache
+INSTALANDO E CONFIGURANDO O MUSTACHE
 
 	npm install mustache-express
 
 	npm install --save-dev mustache-express
+
+	Seguindo esses arquivos, você consegue entender os passos para renderizar o html utilizando o mustache
+
+	IMPORTANTE...
+
+		O nodemon não consegue monitorar arquivos com formato .mustache, apenas .ts e .JSON
+
+		para isso precisamos alterar em package.json em start-dev e colocar o comando: -e ts,json,mustache
+
+			nodemon -e ts,json,mustache src/server.ts
+
 
