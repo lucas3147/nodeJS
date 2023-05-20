@@ -95,3 +95,123 @@ USANDO NODEMON COM TYPESCRIPT
 
 			Quando o nodemon indentificar o arquivo typescript, ao invés de ele rodar o comando node,
 			ele irá rodar o comando ts-node!
+
+INSTALANDO O EXPRESS E CRIANDO UM SERVIDOR
+
+	Express é uma biblioteca que nós conseguimos criar os nossos próprios servidores, em formato de arquivos typescript
+	para controlar o gerenciamento da nossa aplicação, desde o controle da porta, até funcões globais do nosso sistema
+
+	INSTALANDO...
+
+		npm install express
+
+	CÓDIGO DA AULA:
+
+		import express, { Request, Response } from 'express';
+
+		const server = express();
+
+		server.get('/', (req: Request, res: Response) => {
+				res.send('Olá Mundo');
+		})
+
+		server.listen(80);
+
+TEORIA DAS ROTAS
+
+	-- Definindo rotas
+	server.get('/contato', (req: Request, res: Response) => {
+		res.send('Esta é a página de contato');
+	})
+
+TRABALHANDO COM ROTAS
+
+	Podemos utilizar os métodos GET, POST, PUT E DELETE nas nossas rotas
+	
+		// GET, POST, PUT, DELETE
+		server.post('/', (req: Request, res: Response) => {
+			res.send('Olá Mundo');
+		})
+
+	Separando dados na Url
+
+	server.get('/noticia:slug', (req: Request, res: Response) => {
+		let slug: string = req.params.slug;
+		res.send(`Notícia: ${slug}`);
+	});
+
+	server.get('/voo/:origem-:destino', (req:Request, res:Response) => {
+    	let { origem, destino } = req.params;
+
+    	res.send(`Procurando voos de ${origem} até ${destino}`);
+	});
+
+SEPARANDO AS ROTAS NO SEU LUGAR
+
+	Criamos uma pasta chamada Routes para organizar nossas ROTAS
+
+	Para definirmos diferentes rotas no nosso projeto devemos no arquivo server.ts ter o seguinte:
+
+		import express, { Request, Response } from 'express';
+		import mainRoutes from './routes/index';
+		import painelRoutes from './routes/painel';
+
+		const server = express();
+
+		server.use('/', mainRoutes);
+		server.use('/painel', painelRoutes);
+
+		server.listen(80);
+
+CRIANDO O 404 (PÁGINA NÃO ENCONTRADA)
+
+	Ao final das rotas se não for encontrado nada podemos...:
+
+		server.use((req: Request, res: Response) => {
+			res.status(404).send('Página não encontrada');
+		})
+
+	Para tratar o status 404
+
+PASTA PÚBLICA E ARQUIVOS ESTÁTICOS
+
+	Para acessarmos no navegador a pasta pública do nosso projeto 
+	sem que tenho que definir uma rota programaticamente em server.ts, podemos adicionar o seguinte em server.ts:
+
+		server.use(express.static('public'));
+
+	Porém... dependendo de onde iniciarmos o nosso server.ts, seja na pasta c:/ ou c:/lucas/projetos/nodeJS/server.ts
+	irá dar conflito, pois a estrutura das pastas é diferente. Para que a estrutura das pastas raiz seja fixa precisamos fazer o seguinte...
+
+		import path from 'path';
+
+		server.use(express.static(path.join(__dirname, '../public')));
+
+		--__dirname é uma constante que especifica a pasta onde está o server.ts
+
+INTRODUZINDO TEMPLATE ENGINES
+
+	O template Engines nos permite retornar o arquivo html para as rotas que definimos no nosso server.ts
+
+	Template Engines são bibliotecas, e existem vários:
+
+		- Pug    (biblioteca remomendada pelo Express)  -- Não recomenado pelo Bonieky
+		- mustache 										-- Remomendado pelo Bonieky
+		- Edge											-- É um template Engine utilizado pelo AdonisJS que é um framework mais robusto que o Express
+		- EJS (Embedded JavaScript templates)			
+
+	Como a utilizamos?
+
+		router.get('/', (req: Request, res: Response) => {
+			//pegar os produtos do banco de dados
+			//organizar as informações desses produtos
+			//envia para o template engine
+			res.send(index.html);
+		});
+
+INSTALANDO E CONFIGURANDO O mustache
+
+	npm install mustache-express
+
+	npm install --save-dev mustache-express
+
