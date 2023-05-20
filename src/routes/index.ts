@@ -3,14 +3,24 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => {
-    let age: number = 90;
+    let age: number = 91;
     let showOld: boolean = age > 50;
 
     res.render('home', {
         name: 'Lucas',
         lastName: 'Souza',
-        age: 90,
-        showOld
+        age,
+        showOld,
+        products: [
+            { title: 'ProdutoX', price: 30 },
+            { title: 'ProdutoY', price: 15 },
+            { title: 'ProdutoZ', price: 45 }
+        ],
+        tarefas: [
+            'estudar ao meio dia',
+            'violino',
+            'studeo Unicesumar'
+        ]
     });
 });
 

@@ -13,5 +13,23 @@
     {{#showOld}}
         O {{name}} {{lastName}} é maior de idade
     {{/showOld}}
+
+    <hr>
+
+    <h2>Produtos</h2>
+
+    <ul>
+        {{#products}}
+            <li>{{ title }} - Preço: R$ {{ price }}</li>
+        {{/products}}
+    </ul>
+
+    <h2>Tarefas</h2>
+
+    <ul>
+        {{#tarefas}}
+            <li>{{ . }}</li>
+        {{/tarefas}}
+    </ul>
 </body>
 </html>

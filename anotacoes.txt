@@ -244,3 +244,21 @@ MUSTACHE: EXIBIÇAO CONDICIONAL
     {{/showOld}}
 
 	Se o showOld for verdadeiro ele exibe a informação abaixo, se não não!
+
+MUSTACHE: EXIBINDO LISTAS (LOOP)
+
+	Percorrendo objetos:
+
+		{{#products}}
+            <li>{{ title }} - Preço: R$ {{ price }}</li>
+        {{/products}}
+
+		as propriedades dos objetos podemos acessar escrevendo o nome da sua propriedade, não precisando referenciar o objeto novamente
+
+	Percorrendo vetores simples
+
+		{{#tarefas}}
+            <li>{{ . }}</li>
+        {{/tarefas}}
+
+		Coloque o ponto para acessar os valores do array
