@@ -10,6 +10,8 @@
     <h1>Titulo da página</h1>
     <hr>
 
-    Olá, eu sou o {{user.name}}, e tenho {{user.age}} anos ?
+    {{#showOld}}
+        O {{name}} {{lastName}} é maior de idade
+    {{/showOld}}
 </body>
 </html>

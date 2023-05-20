@@ -237,4 +237,10 @@ MUSTACHE: EXIBINDO INFORMAÇÕES
 
 		O segundo é um objeto com as informações que a gente quer enviar
 
-	
+MUSTACHE: EXIBIÇAO CONDICIONAL
+
+	{{#showOld}}
+        O {{name}} {{lastName}} é maior de idade
+    {{/showOld}}
+
+	Se o showOld for verdadeiro ele exibe a informação abaixo, se não não!

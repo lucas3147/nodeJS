@@ -3,12 +3,15 @@ import { Router, Request, Response } from 'express';
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => {
-    let user = {
-        name: 'Lucas',
-        age: 20
-    }
+    let age: number = 90;
+    let showOld: boolean = age > 50;
 
-    res.render('home', {user});
+    res.render('home', {
+        name: 'Lucas',
+        lastName: 'Souza',
+        age: 90,
+        showOld
+    });
 });
 
 router.get('/contato', (req: Request, res: Response) => {
