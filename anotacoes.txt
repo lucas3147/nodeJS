@@ -225,4 +225,16 @@ INSTALANDO E CONFIGURANDO O MUSTACHE
 
 			nodemon -e ts,json,mustache src/server.ts
 
+MUSTACHE: EXIBINDO INFORMAÇÕES
 
+	Agora vamos trabalhar com variáveis no mustache, para isso, precisamos entender:
+
+	RENDER
+
+		ele tem 2 parâmetros principais
+
+		O primeiro é nome do arquivo .mustache
+
+		O segundo é um objeto com as informações que a gente quer enviar
+
+	
