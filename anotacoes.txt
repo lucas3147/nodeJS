@@ -288,3 +288,13 @@ RECEBENDO DADOS NA URL 1
 
 		console.log('query string', req.query)
 
+RECEBENDO DADOS VIA POST
+
+	Antes de fazer isso, temos que configurar o arquivo server.ts
+
+	Antes de adicionarmos as rotas no nosso servidor, temos que definir o seguinte código...
+
+		server.use(express.urlencoded({extended: true}))
+
+		Ele habilita o retorno do corpo da requisição POST, e permite manipular os dados contidos no body dentro da sua respectiva rota
+		
