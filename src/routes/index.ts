@@ -6,7 +6,8 @@ router.get('/', (req: Request, res: Response) => {
     let age: number = 45;
     let showOld: boolean = age > 50;
 
-    res.render('home', {
+    res.render('pages/home', {
+        titulo: 'Página Principal',
         name: 'Lucas',
         lastName: 'Souza',
         age,
@@ -21,11 +22,15 @@ router.get('/', (req: Request, res: Response) => {
 });
 
 router.get('/contato', (req: Request, res: Response) => {
-    res.send('Formulário de contato');
+    res.render('pages/contato', {
+        titulo: 'contato'
+    });
 });
 
 router.get('/sobre', (req: Request, res: Response) => {
-    res.send('Página institucional sobre a empresa');
+    res.render('pages/sobre', {
+        titulo: 'sobre'
+    });
 });
 
 router.get('/abc', (req: Request, res: Response) => {

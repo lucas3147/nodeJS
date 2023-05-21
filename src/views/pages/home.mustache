@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testando o mustache</title>
-</head>
-<body>
-    <h1>Titulo da página</h1>
-    <hr>
+{{>partials/header}}
 
     {{#showOld}}
         O {{name}} {{lastName}} é maior de idade
@@ -23,7 +13,7 @@
 
     <ul>
         {{#products}}
-            <li>{{ title }} - Preço: R$ {{ price }}</li>
+            {{>partials/productItem}}
         {{/products}}
     </ul>
 
@@ -37,5 +27,4 @@
             Nenhuma tarefa para essa semana :)
         {{/tarefas}}
     </ul>
-</body>
-</html>
+{{>partials/footer}}

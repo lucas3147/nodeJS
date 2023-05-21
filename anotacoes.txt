@@ -270,3 +270,10 @@ MUSTACHE: ELSE DE LISTAS
 		{{^tarefas}}
             Nenhuma tarefa encontrada :)
         {{/tarefas}}
+
+MUSTACHE: CONTEÚDO PARCIAL
+
+	Você já sabe sobre esse CONTEÚDO, olha a sintaxe do código para relembrá-lo
+
+	Só uma coisa, aqui não há necessidade de se passar a variável para o partial views, dependendo do contexto
+	ele pode usar as variáveis do arquivo principal que o chamou
