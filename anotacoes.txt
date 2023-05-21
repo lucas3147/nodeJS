@@ -262,3 +262,11 @@ MUSTACHE: EXIBINDO LISTAS (LOOP)
         {{/tarefas}}
 
 		Coloque o ponto para acessar os valores do array
+
+MUSTACHE: ELSE DE LISTAS
+
+	Para utilizar o else basta trocar o jogo da velha (#) por ^
+
+		{{^tarefas}}
+            Nenhuma tarefa encontrada :)
+        {{/tarefas}}

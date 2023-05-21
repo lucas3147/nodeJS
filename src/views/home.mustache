@@ -13,6 +13,9 @@
     {{#showOld}}
         O {{name}} {{lastName}} é maior de idade
     {{/showOld}}
+    {{^showOld}}
+        O {{name}} {{lastName}} é menor de idade
+    {{/showOld}}
 
     <hr>
 
@@ -29,6 +32,9 @@
     <ul>
         {{#tarefas}}
             <li>{{ . }}</li>
+        {{/tarefas}}
+        {{^tarefas}}
+            Nenhuma tarefa para essa semana :)
         {{/tarefas}}
     </ul>
 </body>
