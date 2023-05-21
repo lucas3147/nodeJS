@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { isDate } from 'util/types';
 
 const router = Router();
 
@@ -17,7 +18,12 @@ router.get('/', (req: Request, res: Response) => {
             { title: 'ProdutoY', price: 15 },
             { title: 'ProdutoZ', price: 45 }
         ],
-        tarefas: []
+        tarefas: [
+            'Estudar violino',
+            'Estudar livros da faculdade',
+            'Estudar nodeJS',
+            'Estudar Apis'
+        ]
     });
 });
 
@@ -33,8 +39,28 @@ router.get('/sobre', (req: Request, res: Response) => {
     });
 });
 
-router.get('/abc', (req: Request, res: Response) => {
-    res.send('Página abc sobre a empresa');
+router.get('/nome', (req: Request, res: Response) => {
+    let nome: string = req.query.nome as string;
+
+    res.render('pages/nome', {
+        titulo: 'Conhecendo você!',
+        nome
+    });
+});
+
+router.get('/idade', (req: Request, res: Response) => {
+    let idade = null;
+    if (req.query.anoNascimento) {
+        let anoNascimento: number = parseInt(req.query.anoNascimento as string);
+        let anoAtual: number = new Date().getFullYear();
+        idade = anoAtual - anoNascimento;
+    }
+    
+
+    res.render('pages/idade', {
+        titulo: 'Qual sua idade?',
+        idade
+    });
 });
 
 export default router;

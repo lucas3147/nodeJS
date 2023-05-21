@@ -277,3 +277,14 @@ MUSTACHE: CONTEÚDO PARCIAL
 
 	Só uma coisa, aqui não há necessidade de se passar a variável para o partial views, dependendo do contexto
 	ele pode usar as variáveis do arquivo principal que o chamou
+
+RECEBENDO DADOS NA URL 1
+
+	Se enviarmos uma informação de um formulário com o método GET, ele atualiza a pagina e coloca as informações na Url
+
+	Contudo, tudo que quisermos pegar de uma página por meio de requisições, devemos manipular o req: Request
+
+	Tudo que vem depois do ponto de interrogação chama-se queryString, é possível pegar da seguinte forma:
+
+		console.log('query string', req.query)
+
