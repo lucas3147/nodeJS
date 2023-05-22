@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { Product } from '../models/Product';
 
 export const home = (req: Request, res: Response) => {
     let age: number = 45;
@@ -10,11 +11,8 @@ export const home = (req: Request, res: Response) => {
         lastName: 'Souza',
         age,
         showOld,
-        products: [
-            { title: 'ProdutoX', price: 30 },
-            { title: 'ProdutoY', price: 15 },
-            { title: 'ProdutoZ', price: 45 }
-        ],
+        products: Product.getAll(),
+        expansives: Product.getFromPriceAfter(30),
         tarefas: [
             'Estudar violino',
             'Estudar livros da faculdade',
