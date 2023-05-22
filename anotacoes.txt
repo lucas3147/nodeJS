@@ -301,3 +301,31 @@ RECEBENDO DADOS VIA POST
 INTRODUÇÃO À MVC
 
 	--Já estudamos, siga o código
+
+VARIÁVEIS DE AMBIENTE 
+
+	É um arquivo sem e nome com extensão .env
+
+	Ele guarda as variáveis de ambiente das nossas aplicações
+
+	Conseguimos pegar a informação das portas por exemplo dentro desse arquivo
+
+	Assim, dependendo do local em que estamos usando a aplicação, podemos usar portas diferentes com a mesma aplicação, porque o arquivo .env 
+	vai estar em contextos diferentes
+
+	Para conseguirmos pegar as informações contidas nele, precisamos...
+	
+		instalar uma biblioteca chamada dotEnv:
+
+			npm install dotenv
+
+		iniciar uma função chamada config():
+
+			dotenv.config();
+
+		Pegando...
+
+			process.env.PORT
+			// process é um objeto do node
+
+	Podemos utilizar essa técnica para um banco de dados por exemplo...
