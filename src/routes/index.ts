@@ -1,18 +1,14 @@
-import { Router, Request, Response } from 'express';
-
-import * as HomeController from '../controllers/homeController';
-import * as InfoController from '../controllers/infoController';
-import * as UserController from '../controllers/userController';
+import { Router } from 'express';
+import * as pageController from '../controllers/pageController';
+import * as searchController from '../controllers/searchController';
 
 const router = Router();
 
-router.get('/', HomeController.home);
+router.get('/', pageController.home);
+router.get('/dogs', pageController.dogs);
+router.get('/cats', pageController.cats);
+router.get('/fishes', pageController.fishes);
 
-router.get('/contato', InfoController.contato);
-router.get('/sobre', InfoController.sobre);
-
-router.get('/nome', UserController.nome);
-router.get('/idade', UserController.idade);;
-router.post('/idade-resultado', UserController.idade_resultado);
+router.get('/search', searchController.search);
 
 export default router;
