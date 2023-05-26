@@ -329,3 +329,35 @@ VARIÁVEIS DE AMBIENTE
 			// process é um objeto do node
 
 	Podemos utilizar essa técnica para um banco de dados por exemplo...
+
+COLOCANDO O PROJETO NO AR 1
+
+	Vamos usar um serviço chamado heroku
+
+	Para isso, precisamos colocar no nosso projeto a versão do node:
+
+	No arquivo package.json...
+
+		"engines": {
+    		"node": "18.x"
+  		},
+	
+	Em seguida, criar um arquivo Procfile, com o comando que inicia o nosso projeto:
+
+		web: npm start
+
+	Em scripts no arquivo package.json precisamos ter os seguintes comandos 
+	
+		"start": "dist/server.js",
+		"postinstall": "tsc"
+
+	O postinstall é um comando que nos permite transformar os códigos typescript para javascript,
+	porém pastas que não tem typescript como a view por exemplo, ele não transforma, mas precisamos dessas views,
+	para isso vamos instalar uma biblioteca chamada copyfiles: 
+	
+		npm install --save-dev copyfiles
+
+	Agora o postinstall deve usar o seguinte comando:
+
+		"postinstall": "tsc && copyfiles -u 1 src/**/*.mustache dist/"
+
