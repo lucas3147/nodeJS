@@ -329,3 +329,38 @@ VARIÁVEIS DE AMBIENTE
 			// process é um objeto do node
 
 	Podemos utilizar essa técnica para um banco de dados por exemplo...
+
+MYSQL VS POSTGRESQL
+
+	- Os ois são open-source, mas o Postgre é mais
+	- Suportam todos* os SO e linguagens. * todos é uma generalição
+
+	-- QUEM USA?
+
+	-- MYSQL
+
+	-- Facebook
+	-- Google
+	-- GitHub
+	-- NASA
+	-- NetFlix
+
+
+	-- POSTGRESQL
+	-- Apple
+	-- Facebook
+	-- Instagram
+	-- Skype
+	-- Spotify
+
+	MYSQL não é case-sensitive
+	PostgreSQL é case-sensitive
+
+	---------- PERFORMANCE --------- 
+
+	Geralmente para grandes volumes ou consultas complexas, 
+	o PostgreeSQL tende a ser um pouco mais rápido.
+
+	MYSQL geralmente é mais rápido para pequenos volumes OU consultas simples.
+
+	
