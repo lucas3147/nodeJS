@@ -376,3 +376,47 @@ INSTALANDO LIB E CONFIGURANDO O UPLOAD
 	Intalando:
 
 		npm install multer
+
+ENTENDENDO O QUE É CORS
+
+	CORS: Cross-Origin Resource Sharing
+
+	Troca de recursos de origens diferentes
+
+	Qualquer sistema que faz requisições à outros sistemas, ele tem junto dele a origem da política do CORS
+
+	Ela bloqueia, por padrão, que você faça requisições de uma url para outra url com o domínio diferente, a não ser que 
+	no sistema que está sendo requisitado permita o acesso dos recursos aos sites/sistemas.
+
+	Existem outros meios de bloqueiar os recursos... Como por exemplo permitir que apenas alguns métodos (GET, POST, PUT, DELETE ...) possam ser disponibilizados
+
+	Get na maioria das vezes é permitido.
+
+	O header (cabeçalho) para liberar uma origem, ou seja, um endereço para ele acessar o meu é O
+	Access-Control-Align-Origin, e a política para liberar um método específico é o Access-Control-Align-Methods
+
+	Prática:
+
+		instalar a biblioteca CORS
+
+			npm install cors
+			npm install -D @types/cors
+
+		importar o cors em server.ts
+
+		Usá-lo em seguida ao iniciar o servidor:
+
+			const server = express();
+
+			server.use(cors());
+
+		Podemos dentro da função cors, colocar um objeto com configurações específicas:
+
+			server.use(cors({
+				origin: 'https://resttesttest.com/',
+				methods: ['GET', 'POST']
+			}));
+
+		Se não colocarmos, ele usa opções padrão:
+
+			- que é liberar as funcionalidades para qualquer origem
