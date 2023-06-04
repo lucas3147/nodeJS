@@ -363,14 +363,6 @@ MYSQL VS POSTGRESQL
 
 	MYSQL geralmente é mais rápido para pequenos volumes OU consultas simples.
 
-BIBLIOTECAS DE UPLOAD MAIS USADAS
-
-	- express-fileupload
-	- Multer
-	- formidable
-
-	Escolhemos a Multer
-
 INSTALANDO LIB E CONFIGURANDO O UPLOAD
 
 	Intalando:
@@ -420,3 +412,17 @@ ENTENDENDO O QUE É CORS
 		Se não colocarmos, ele usa opções padrão:
 
 			- que é liberar as funcionalidades para qualquer origem
+
+BIBLIOTECAS DE UPLOAD MAIS USADAS
+
+	- express-fileupload
+	- Multer
+	- formidable
+
+	Escolhemos a Multer
+
+INSTALANDO LIB E CONFIGURANDO O UPLOAD
+
+	o Multer possui varias configurações, como por exemplo:
+
+		dest: './tmp'		--define o destino
