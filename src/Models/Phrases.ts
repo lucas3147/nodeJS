@@ -7,18 +7,22 @@ export interface PhraseInstance extends Model {
     phrase: string;
 }
 
-export const Phrase = sequelize.define<PhraseInstance>('Phrase', {
-    id: {
-        primaryKey: true,
-        autoIncrement: true,
-        type: DataTypes.INTEGER
+export const Phrase = sequelize.define<PhraseInstance>('Phrase', 
+    {
+        id: {
+            primaryKey: true,
+            autoIncrement: true,
+            type: DataTypes.INTEGER
+        },
+        author: {
+            type: DataTypes.STRING
+        },
+        phrase: {
+            type: DataTypes.STRING
+        }
     },
-    author: {
-        type: DataTypes.STRING
-    },
-    phrase: {
-        type: DataTypes.STRING
-    },
-    tableName: 'phrases',
-    timestamps: false
-});
+    {
+        tableName: 'phrases',
+        timestamps: false
+    } 
+);
