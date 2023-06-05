@@ -426,3 +426,35 @@ INSTALANDO LIB E CONFIGURANDO O UPLOAD
 	o Multer possui varias configurações, como por exemplo:
 
 		dest: './tmp'		--define o destino
+
+TIPOS DE STORAGE
+
+	Podemos configurar o caminho e nome do arquivo com os comando em api.ts:
+
+	const storageConfig = multer.diskStorage({
+		destination: (req, file, cb) => {
+			cb(null, './tmp');
+		},
+		filename: (req, file, cb) => {
+			let typeExtension = (file.mimetype.slice(file.mimetype.indexOf('/')+1))
+			cb(null, `${file.fieldname}${Date.now()}.${typeExtension}`);
+		}
+	});
+
+	const upload = multer({
+		storage: storageConfig
+
+	});
+
+	Podemos também definir uma configuração, para o arquivo ser recebido apenas com as suas informações, sem armazenar em lugar Algumas
+
+	const upload = multer({
+		storage: multer.memoryStorage()
+	});
+
+	ALERTA!
+
+	Como o memoryStorage salva as informações dos arquivos na memória ram, corre o risco de o usuário derrubar o servidor,
+	caso ele envie um arquivo muito grande no servidor.
+
+	

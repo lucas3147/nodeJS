@@ -88,13 +88,9 @@ export const randomPhrase = async (req: Request, res: Response) => {
 }
 
 export const uploadFile = async (req: Request, res: Response) => {
-    
-    const files = req.files as {
-        avatar: Express.Multer.File[],
-        gallery: Express.Multer.File[]
-    };
-    console.log('AVATAR', files.avatar );
-    console.log('GALLERY', files.gallery );
+
+    console.log('AVATAR',req.file?.mimetype.slice(req.file.mimetype.indexOf('/')+1));
+    console.log('FILES',req.files);
     
     res.json({});
 }
