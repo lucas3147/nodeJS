@@ -3,20 +3,15 @@ import multer from 'multer';
 
 import * as ApiController from '../Controllers/apiController';
 
-const storageConfig = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, './tmp');
-    },
-    filename: (req, file, cb) => {
-        let typeExtension = (file.mimetype.slice(file.mimetype.indexOf('/')+1))
-        cb(null, `${file.fieldname}${Date.now()}.${typeExtension}`);
-    }
-})
-
 
 const upload = multer({
-    storage: storageConfig
+    dest: './tmp',
+    fileFilter: (req, file, cb) => {
+        const allowed: string[] = ['image/jpg', 'image/jpeg', 'image/png']
 
+        cb(null, allowed.includes(file.mimetype));
+    },
+    limits: { fieldNameSize: 100, fieldSize: 2000000  }
 });
 
 /*

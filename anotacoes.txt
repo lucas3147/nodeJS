@@ -446,7 +446,8 @@ TIPOS DE STORAGE
 
 	});
 
-	Podemos também definir uma configuração, para o arquivo ser recebido apenas com as suas informações, sem armazenar em lugar Algumas
+	Podemos também definir uma configuração, para o arquivo ser recebido apenas com as suas informações, 
+	sem armazenar em lugar Algum
 
 	const upload = multer({
 		storage: multer.memoryStorage()
@@ -457,4 +458,56 @@ TIPOS DE STORAGE
 	Como o memoryStorage salva as informações dos arquivos na memória ram, corre o risco de o usuário derrubar o servidor,
 	caso ele envie um arquivo muito grande no servidor.
 
-	
+VALIDANDO ARQUIVOS DE UPLOAD
+
+	1 - Essa validação não fazemos no controlador. Mas fazemos isso antes de receber esse arquivo
+
+	A validação dos arquivos é feito no método multer() em api.ts.
+
+	criamos uma função chamada fileFilter no objeto que passamos para o método multer.
+
+	essa função aceita três parâmetros, req, file, e cb
+
+	cb é uma função, e aceita dois parâmetros, o primeiro, é para tratar erros, e o segundo o aceite do arquivo, uma variável
+	do tipo boolean
+
+	Função multer():
+
+		const upload = multer({
+			dest: './tmp',
+			fileFilter: (req, file, cb) => {
+				const allowed: string[] = ['image/jpg', 'image/jpeg', 'image/png']
+
+				cb(null, allowed.includes(file.mimetype));
+			}
+		});
+
+	2 - Também podemos filtrar os arquivos pelos seus tamanhos, sejam os conteúdos desses arquivos,
+	seja o nome de uma imagem, e assim por diante...
+
+	Para fazer isso precisamos de outro atributo no nosso objeto, chamado limits...
+
+	Código:
+
+		const upload = multer({
+			dest: './tmp',
+			fileFilter: (req, file, cb) => {
+				const allowed: string[] = ['image/jpg', 'image/jpeg', 'image/png']
+
+				cb(null, allowed.includes(file.mimetype));
+			}
+			limits: { fieldNameSize: 100, ... }
+		});
+
+	limits é um objeto que pode ser preenchido com seus atributos:
+
+	O primeiro atributo é o fieldNameSize:
+
+		Ele define o tamanho máximo em bytes dos nomes que os nossos
+		arquivos podem ter, nesse caso o padrão são 100 bytes, que é 100 caracteres
+
+	o segundo atributo é o fieldSize:
+
+		Ele define o tamanho do conteúdo que o arquivo pode ter. Também colocamos ele em bytes
+
+	Existem mais atributos, mas esses são os principais
