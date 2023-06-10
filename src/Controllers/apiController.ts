@@ -1,3 +1,4 @@
+import { unlink } from 'fs/promises';
 import {Request, Response} from 'express'; 
 import { Sequelize } from 'sequelize';
 import { Phrase } from '../Models/Phrases';
@@ -90,14 +91,18 @@ export const randomPhrase = async (req: Request, res: Response) => {
 
 export const uploadFile = async (req: Request, res: Response) => {
     if (req.file) {
+        let filename = `${req.file.filename}.jpg`;
+
         await sharp(req.file.path)
                     .resize(500, 500, {
                         fit: sharp.fit.fill
                     })
                     .toFormat('jpeg')
-                    .toFile(`./public/media/${req.file.fieldname}.jpg`);
+                    .toFile(`./public/media/${filename}`);
 
-        res.json({image: `${req.file.filename}.jpg`});
+        await unlink(req.file.path);
+                
+        res.json({image: `${filename}`});
     } else {
         res.status(400).json({error: 'Arquivo inválido'});
     }

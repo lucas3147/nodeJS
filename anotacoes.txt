@@ -580,3 +580,17 @@ MANIPULANDO IMAGENS 2
                     .toFile(`./public/media/${req.file.fieldname}.jpg`);
 
 	position centraliza a parte que queremos que ela apareça
+
+DELETANDO IMAGEM TEMPORÁRIA
+
+	Para deletarmos as imagens temporárias que são geradas na pasta ./tmp temos que importar uma biblioteca interna do node chamada:
+
+		fs/promisses
+
+		é um biblioteca que engloba as funções de gerenciamento de arquivos do sistema, só que através promessas
+
+		import { unlink } from 'fs/promises';
+
+	Usando unlink:
+
+		await unlink(req.file.path);
