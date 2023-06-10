@@ -511,3 +511,21 @@ VALIDANDO ARQUIVOS DE UPLOAD
 		Ele define o tamanho do conteúdo que o arquivo pode ter. Também colocamos ele em bytes
 
 	Existem mais atributos, mas esses são os principais
+
+LIDANDO COM ERROS DE UPLOAD
+
+	Trataremos os nossos erros em server.ts, se o erro for do multer, vamos tratá-lo também...
+
+	Após o tratamento de erro para as rotas não encontradas, criamos o seguinte trecho de código...
+
+	const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+		res.status(400)//  Bad Request
+
+		if (err instanceof MulterError) {
+			res.json({ error: err.code });
+		} else {
+			res.json( { error: 'Ocorreu algum erro.'} );
+		}
+	}
+	
+	server.use(errorHandler);
