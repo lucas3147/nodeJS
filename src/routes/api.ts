@@ -11,7 +11,7 @@ const upload = multer({
 
         cb(null, allowed.includes(file.mimetype));
     },
-    limits: { fieldNameSize: 100, fieldSize: 2000000  }
+    limits: { fieldSize: 2000000  }
 });
 
 /*
@@ -34,6 +34,6 @@ router.get('/frases/:id', ApiController.getPhrase);
 router.put('/frase/:id', ApiController.updatePhrase);
 router.delete('/frase/:id', ApiController.deletePhrase);
 
-router.post('/upload', upload.single('avatar'), ApiController.uploadFile);
+router.post('/upload', upload.single('ano-novo'), ApiController.uploadFile);
 
 export default router;

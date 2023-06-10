@@ -555,4 +555,28 @@ MANIPULANDO IMAGENS 1
 		toFormat define o formato da imagem
 
 		toFile salva a imagem n caminho que queremos e com o nome que queremos.
-		
+
+MANIPULANDO IMAGENS 2
+
+	Podemos ter mais  configurações no sharp:
+
+	await sharp(req.file.path)
+                    .resize(500, 500, {
+                        fit: sharp.fit.fill
+                    })
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.fieldname}.jpg`);
+
+	veja que resize aceita um objeto como terceiro parâmetro, para distorcermos a imagem a fim de centralizar o conteúdo nela...
+
+	um dos exemplos de distorção é o fill, que centraliza a imagem para caber todo o seu conteúdo independente das medidas serem proporcionais.
+
+	await sharp(req.file.path)
+                    .resize(500, 500, {
+                        fit: sharp.fit.cover,
+						position: 'bottom'
+                    })
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.fieldname}.jpg`);
+
+	position centraliza a parte que queremos que ela apareça

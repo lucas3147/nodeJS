@@ -89,17 +89,16 @@ export const randomPhrase = async (req: Request, res: Response) => {
 }
 
 export const uploadFile = async (req: Request, res: Response) => {
-
     if (req.file) {
         await sharp(req.file.path)
-                    .resize(500)
+                    .resize(500, 500, {
+                        fit: sharp.fit.fill
+                    })
                     .toFormat('jpeg')
-                    .toFile(`./public/media/${req.file.filename}.jpg`);
+                    .toFile(`./public/media/${req.file.fieldname}.jpg`);
 
         res.json({image: `${req.file.filename}.jpg`});
     } else {
         res.status(400).json({error: 'Arquivo inválido'});
     }
-    
-    res.json({});
 }
