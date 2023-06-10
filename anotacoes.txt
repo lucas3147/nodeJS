@@ -527,5 +527,32 @@ LIDANDO COM ERROS DE UPLOAD
 			res.json( { error: 'Ocorreu algum erro.'} );
 		}
 	}
-	
+
 	server.use(errorHandler);
+
+MANIPULANDO IMAGENS 1
+
+	Para realizar essa manipulação, vamos precisar de uma biblioteca, e a melhor biblioteca para isso segundo o prof, 
+	é a sharp
+
+	Sharp:
+
+		npm install sharp
+
+		npm install -D @types/sharp
+
+		Para usar biblioteca temos alguns métodos importantes:
+
+		await sharp(req.file.path)
+                    .resize(500)
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.filename}.jpg`);
+
+		sharp carrega a imagem de onde quer que ela esteja, seja no buffer (memória, ou num caminho como no caso acima)
+
+		resize, redimensiona a imagem em largura e altura
+
+		toFormat define o formato da imagem
+
+		toFile salva a imagem n caminho que queremos e com o nome que queremos.
+		

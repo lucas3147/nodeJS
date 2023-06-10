@@ -1,6 +1,7 @@
 import {Request, Response} from 'express'; 
 import { Sequelize } from 'sequelize';
 import { Phrase } from '../Models/Phrases';
+import sharp, { Sharp } from 'sharp';
 
 export const ping = (req: Request, res: Response) => {
     res.json({pong: true});
@@ -89,8 +90,16 @@ export const randomPhrase = async (req: Request, res: Response) => {
 
 export const uploadFile = async (req: Request, res: Response) => {
 
-    console.log('AVATAR',req.file?.mimetype.slice(req.file.mimetype.indexOf('/')+1));
-    console.log('FILES',req.files);
+    if (req.file) {
+        await sharp(req.file.path)
+                    .resize(500)
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.filename}.jpg`);
+
+        res.json({image: `${req.file.filename}.jpg`});
+    } else {
+        res.status(400).json({error: 'Arquivo inválido'});
+    }
     
     res.json({});
 }
