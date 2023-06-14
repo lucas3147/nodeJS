@@ -654,3 +654,17 @@ O PRÓXIMO PASSO DA AUTENTICAÇÃO
 COMANDO PARA INICIAR O POSTGRESQL NO sistema
 
 	pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
+
+FAZENDO AUTENTICAÇÃO BASIC Auth
+
+	Toda requisição que você fizer, você vai mandar o usuário e senha no header da requisição
+
+	Formato do objeto que devemos enviar no cabeçalho
+
+		{
+			Authorization: {
+				Basic [Código Hash]
+			}
+		}
+	
+	O código Hash deve possuir o usuário e senha transformados em código Base64
