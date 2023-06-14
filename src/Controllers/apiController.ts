@@ -1,109 +1,53 @@
-import { unlink } from 'fs/promises';
-import {Request, Response} from 'express'; 
-import { Sequelize } from 'sequelize';
-import { Phrase } from '../Models/Phrases';
-import sharp, { Sharp } from 'sharp';
+import { Request, Response } from 'express';
+import { User } from '../models/User';
 
 export const ping = (req: Request, res: Response) => {
     res.json({pong: true});
 }
 
-export const random = (req: Request, res: Response) => {
-    let nRand: number = Math.floor( Math.random() * 10 );
-    res.json({number: nRand});
-}
+export const register = async (req: Request, res: Response) => {
+    if(req.body.email && req.body.password) {
+        let { email, password } = req.body;
 
-export const nome = (req: Request, res: Response) => {
-    let nome: string = req.params.nome;
+        let hasUser = await User.findOne({where: { email }});
+        if(!hasUser) {
+            let newUser = await User.create({ email, password });
 
-    res.json({nome: `Você enviou o nome ${nome}`});
-}
-
-export const createPhrase = async (req: Request, res: Response) => {
-    let { author, phrase } = req.body;
-
-    let newPhrase = await Phrase.create({ author, phrase });
-
-    res.json({id: newPhrase.id, author, phrase});
-}
-
-export const listPhrases = async (req: Request, res: Response) => {
-    let list = await Phrase.findAll();
-
-    res.json({list});
-}
-
-export const getPhrase = async (req: Request, res: Response) => {
-    let { id } = req.params;
-    
-    let phrase = await Phrase.findByPk(id);
-
-    if(phrase) {
-        res.json({ phrase });
+            res.status(201);
+            res.json({ id: newUser.id });
+        } else {
+            res.json({ error: 'E-mail já existe.' });
+        }
     }else{
-        res.json({error: 'Frase não encontrada!'});
+        res.json({ error: 'E-mail e/ou senha não enviados.' });
     }
-    
 }
 
-export const updatePhrase = async (req: Request, res: Response) => {
-    let { id } = req.params;
-    let { author, phrase } = req.body;
+export const login = async (req: Request, res: Response) => {
+    if(req.body.email && req.body.password) {
+        let email: string = req.body.email;
+        let password: string = req.body.password;
 
-    let phraseObj = await Phrase.findByPk(id);
+        let user = await User.findOne({ 
+            where: { email, password }
+        });
 
-    if (phraseObj) {
-        phraseObj.author = author;
-        phraseObj.phrase = phrase;
-        await phraseObj.save();
-
-        res.json({ phrase });
-    }else{
-        res.json({error: 'Frase não encontrada!'});
+        if(user) {
+            res.json({ status: true });
+            return;
+        }
     }
-    
+
+    res.json({ status: false });
 }
 
-export const deletePhrase = async (req: Request, res: Response) => {
-    let { id } = req.params;
+export const list = async (req: Request, res: Response) => {
+    let users = await User.findAll();
+    let list: string[] = [];
 
-    await Phrase.destroy({
-        where: {id}
-    })
-
-    res.json();
-}
-
-export const randomPhrase = async (req: Request, res: Response) => {
-    let phrase = await Phrase.findOne({
-        order: [
-            Sequelize.fn('RAND')
-        ]
-    })
-
-    if (phrase) {
-        res.json({ phrase });
-    }else{
-        res.json({ error: 'Não há frase cadastradas.' });
+    for(let i in users) {
+        list.push( users[i].email );
     }
-    
-}
 
-export const uploadFile = async (req: Request, res: Response) => {
-    if (req.file) {
-        let filename = `${req.file.filename}.jpg`;
-
-        await sharp(req.file.path)
-                    .resize(500, 500, {
-                        fit: sharp.fit.fill
-                    })
-                    .toFormat('jpeg')
-                    .toFile(`./public/media/${filename}`);
-
-        await unlink(req.file.path);
-                
-        res.json({image: `${filename}`});
-    } else {
-        res.status(400).json({error: 'Arquivo inválido'});
-    }
+    res.json({ list });
 }

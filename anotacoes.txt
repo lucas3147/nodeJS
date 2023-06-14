@@ -594,3 +594,63 @@ DELETANDO IMAGEM TEMPORÁRIA
 	Usando unlink:
 
 		await unlink(req.file.path);
+
+INTRODUÇÃO À AUTENTICAÇÃO
+
+AUTENTICAÇÃO VS AUTORIZAÇÃO
+
+	Autenticação é o ato de SABER QUEM é que está tentando acessar.
+
+	Autorização é o ato de verificar se o OBJETO ou requisitor 
+	pode acessar aquela área específica. 
+
+TIPOS DE AUTENTICAÇÃO
+
+	- Single-factor Authentication = Autenticação de 1 fator.
+
+		Isso significa que o sistema vai se basear em um único fator (que é o usuário e senha) para liberar o acesso daquela área
+
+	- Two-Factor Authentication (2FA) = Autenticação em 2 fatores.
+
+		Nesse tipo, além de colocarmos o usuário e senha, será necessário o preenchimento de uma segunda etapa
+		como por exemplo, um código de verificação enviado pelo e-mail.
+
+	- Multi-factor Authentication (MFA) = Autenticação em múltiplos fatores.
+
+		Existem vários processos para saber quem é a pessoa que está querendo acessar o recursos
+
+	- Sngle Sign-On (SSO) = Autenticação única "universal"
+
+		É como logarmos no google chrome, e acessar o youtube, sem definir o login, pois eles fazem parte da mesma empresa (serviço).
+
+O PRÓXIMO PASSO DA AUTENTICAÇÃO
+
+	Independente do tipo de autenticação, precisamos pensar em como liberar o acesso ao serviço para essa pessoa:
+
+	Principais tipos de retorno:
+
+		- Basic Auth
+
+			Assim que passar pela autenticação, o usuário quando estiver solicitando um serviço do sistema, eu pego aquele usuário e senha e 
+			eu mando junto daquela requisição, a cada requisição eu estou mandando o usuário e senha do perfil.
+
+			Esse usuário e senha são agrupados e criptografados usando o base64
+
+		- OAuth (1 e 2)
+
+			OAuth1 = Usar um terceiro para gerar um token (Exemplo: Login pelo Facebook).
+
+			OAuth2 = OAuth1 + RefreshToken
+
+				Ele é parecido com o OAuth1, porém ele fica esperando de tempo em tempo um novo token
+
+		- JWT (Json Web Token)
+
+			É um processo de autenticação feito pelo próprio sistema, que gera um tokene devolve esse token para o servidor.
+
+			Toda vez que requisitarmos um serviço do sistema, será enviado também esse token, e no servidor ele pega esse token e verifica se o token tem autorização naquele
+			serviço
+
+COMANDO PARA INICIAR O POSTGRESQL NO sistema
+
+	pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
