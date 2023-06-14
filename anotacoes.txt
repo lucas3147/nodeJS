@@ -646,7 +646,7 @@ O PRÓXIMO PASSO DA AUTENTICAÇÃO
 
 		- JWT (Json Web Token)
 
-			É um processo de autenticação feito pelo próprio sistema, que gera um tokene devolve esse token para o servidor.
+			É um processo de autenticação feito pelo próprio sistema, que gera um token e devolve esse token para o servidor.
 
 			Toda vez que requisitarmos um serviço do sistema, será enviado também esse token, e no servidor ele pega esse token e verifica se o token tem autorização naquele
 			serviço
@@ -668,3 +668,31 @@ FAZENDO AUTENTICAÇÃO BASIC Auth
 		}
 	
 	O código Hash deve possuir o usuário e senha transformados em código Base64
+
+JWT: GERANDO O TOKEN 1
+
+	JWT - JSON WEB TOKEN
+
+		Fazemos uma autenticação normal no sistema, ele gera um token, e dentro dele vai ter algumas informações que podemos usar para requisitarmos
+
+		O processo de decodificação do token é feito com uma chave privada.
+
+		Biblioteca para ser instalada:
+
+			npm install jsonwebtoken
+
+			npm install -D @types/jsonwebtoken
+
+		Código gerando o token:
+
+		const token = JWT.sign(
+                {id: user.id, email: user.email},
+                process.env.JWT_SECRET_KEY as string,
+                { expiresIn: '2h'}
+        );
+
+		Parâmetros:
+
+			1 - Informações que o token terá
+			2 - Chave privada no arquivo .env
+			3 - objeto de configuração (definindo que o token irá expirar em 2 horas).
