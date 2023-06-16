@@ -696,3 +696,19 @@ JWT: GERANDO O TOKEN 1
 			1 - Informações que o token terá
 			2 - Chave privada no arquivo .env
 			3 - objeto de configuração (definindo que o token irá expirar em 2 horas).
+
+JWT: VALIDANDO O TOKEN
+
+	Diferente do Basic Authentication
+
+	O token é dividido em duas partes:
+
+		- Bearer lksaflkjÇALSKJD
+
+		- Bearer é uma constante para qualquer token, ele nos ajuda dizer qual é tipo de validação que devemos fazer
+
+	Podemos fazer um split no espaço para separa essas informações e guardar em um array, e desserializar esse array e 
+	guardar em variáveis
+
+	
+
