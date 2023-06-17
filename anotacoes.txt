@@ -878,3 +878,5 @@ FAZENDO JWT COM PASSPORT 1
 				return done(notAuthorizedJson, false);
 			}
 		}));
+
+FAZENDO JWT COM PASSPORT 2
