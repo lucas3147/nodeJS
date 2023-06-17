@@ -711,4 +711,71 @@ JWT: VALIDANDO O TOKEN
 	guardar em variáveis
 
 	
+ENVIANDO E-MAILS COM NODE 1
 
+	Para enviarmos um email vamos utilizar a biblioteca NodeMailer
+
+	instalando:
+
+		npm install nodemailer
+
+	Lembrando que para receber um e-mail, utilizamos a requisição Pop, e para
+	enviarmos um e-mail, utilizamos a requisição SMTP
+
+	Temos 3 passo s para enviarmos um email pelo NodeMailer
+
+	// Passo 1: Configurar o transporter
+
+    let transport = nodemailer.createTransport({
+        host: "sandbox.smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "8b65376b559c41",
+          pass: "********246b"
+        }
+    });
+
+	-- Nesse passo configuramos o servidor SMTP para enviarmos o email
+	-- Estamos utilizando um servidor de testes para enviarmos esses emails
+	-- Para enviarmos o email utilizamos o site mailtrap.io
+	-- No próprio site ele monta o objeto de configuração para enviarmos
+
+    // Passo 2: Configurar a mensagem
+    // Passo 3: Enviar a mensagem
+
+Enviando e-mails com Node 2
+
+	Continuando os passos
+
+	// Passo 1: Configurar o transporter
+
+    let transport = nodemailer.createTransport({
+        host: "sandbox.smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "8b65376b559c41",
+          pass: "********246b"
+        }
+    });
+
+    // Passo 2: Configurar a mensagem
+
+    let message = {
+        from: 'Roberto Sila <roberto@hotmail.com>',
+        to: 'teste@hotmail.com',
+        subject: 'Assunto leal',
+        html: 'Opa <strong>Teste</strong>, como vai?',
+        text: 'Opa teste, como vai?'
+
+    }
+
+	-- Você pode acessar a configuração da mensagem no site da documentação do nodemailer
+	-- https://nodemailer.com/message/
+
+    // Passo 3: Enviar a mensagem
+
+    let info = await transport.sendMail(message);
+
+    console.log('INFO', info);
+
+	-- Pronto, é só testar!
