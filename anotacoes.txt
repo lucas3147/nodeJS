@@ -779,3 +779,53 @@ Enviando e-mails com Node 2
     console.log('INFO', info);
 
 	-- Pronto, é só testar!
+
+INTRODUÇÃO A LIB PASSPORT
+
+	Nessa aula vamos começar a utilizar bibliotecas e padrões para autenticação que são
+	utilizados no mundo real...
+
+	Uma das bibliotecas mais utilizadas no mundo para autenticação é a PASSPORT, que suporta diversos servidores
+	e linguagens.
+
+	E com a biblioteca Passport podemos fazer diversos tipós de autenticação
+
+		Os tipos de autenticações são chamados de Strategys (estratégias)
+
+		Site: http://www.passportjs.org/packages/
+
+	INSTALAÇÃO
+
+		npm install passport
+
+		npm install -D @types/passport
+
+	INICIANDO...
+
+	Passo 1 - Definindo a configuração inicial:
+
+		Em server.ts
+
+			import passport from 'passport'
+
+			server.use(passport.initialize);
+
+	Passo 2 - Definindo o tipo de login que eu vou usar:
+
+		- Criar pasta chamada config em src
+
+		- Criar arquivo Ts chamado passport.ts em config
+
+		- Código:
+			//
+			import passport from 'passport';
+
+			passport.use(  ... );
+
+			export default passport;	
+			//
+		
+		// Dentro desse arquivo vamos definir a nossa estratégia de autenticação que queremos usar
+		// Esse arquivo ele puxa o passport, configura o login que eu quero, e depois exporta o passport configurado.
+
+		
