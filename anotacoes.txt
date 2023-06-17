@@ -8,6 +8,12 @@ FERRAMENTAS/BIBLIOTECAS PARA AJUDAR A PROGRAMAR OS NOSSOS PROJETOS:
 	o coomando "npm install" que ele vai ler as dependências do projeto incluídas no tsconfig e restaurar 
 	os arquivos
 
+REMOVER ÚLTIMO COMMIT
+
+	Muito cuidado, que o git irá apagar as alterações dos seus arquivos
+
+	git reset --hard HEAD
+
 SCRIPTS DO PACKAGE.JSON
 
 	Podemos colocar dentro desse objeto, podemos colocar atalhos para executar comandos
@@ -841,3 +847,34 @@ FAZENDO BASIC AUTH COM PASSPORT 2
 
 	O legal de usar o Passport é que quando ele dá problema, ele se comunica com o ErrorRequestHandler,
 	e podemos pegar essa mensagem para tratar...
+
+FAZENDO JWT COM PASSPORT 1
+
+	Para utilizar a autenticação JWT precisamos instalar a biblioteca passport-JWT
+
+	Instalando:
+
+		npm install passport-jwt
+		npm install -D @types/passport-jwt
+
+	Código:
+
+		const options = {
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			secretOrKey: process.env.JWT_SECRET as string
+		}
+		// Essas duas informações são obrigatórias para o objeto
+		// A primeira informa onde ele deve procurar o token que estamos mandando
+		// A segunda informa a chave de decodificação do token
+		// new JWTStrategy recebe um objeto de configuração para dizermos ao passport como devemos manipular o token
+
+		passport.use(new JWTStrategy(options, async (payload, done) => {
+			// Quando eu receber um JWT o payload já vai ser um objeto, com as informações do token
+			const user = await User.findByPk(payload.id)
+
+			if (user) {
+				return done(null, user);
+			} else {
+				return done(notAuthorizedJson, false);
+			}
+		}));
