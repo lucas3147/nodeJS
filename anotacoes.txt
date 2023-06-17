@@ -828,4 +828,11 @@ INTRODUÇÃO A LIB PASSPORT
 		// Dentro desse arquivo vamos definir a nossa estratégia de autenticação que queremos usar
 		// Esse arquivo ele puxa o passport, configura o login que eu quero, e depois exporta o passport configurado.
 
-		
+FAZENDO BASIC AUTH COM PASSPORT 1
+
+	Para fazer o Basic Auth com o Passport, vamos precisar de outra biblioteca chamada passport-http
+
+	Instalando:
+
+		npm install passport-http
+		npm install -D @types/passport-http
