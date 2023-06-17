@@ -836,3 +836,8 @@ FAZENDO BASIC AUTH COM PASSPORT 1
 
 		npm install passport-http
 		npm install -D @types/passport-http
+
+FAZENDO BASIC AUTH COM PASSPORT 2
+
+	O legal de usar o Passport é que quando ele dá problema, ele se comunica com o ErrorRequestHandler,
+	e podemos pegar essa mensagem para tratar...
