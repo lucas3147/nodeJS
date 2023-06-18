@@ -950,3 +950,13 @@ CONFIGURANDO O JEST NO SEU PROJETO
 			APENAS UMA FORMA:
 
 				Criar uma pasta [tests] na pasta src, dentro dela o arquivo de teste, e importa o arquivo que você quer testar dentro de [nome_arquivo.int.test.ts].
+
+CRIANDO MEU PRIMEIRO TESTE
+
+	Vamos criar um teste simples
+
+	Vamos seguir o conceito de TDD, criando o teste primeiro, depois criar a funcionalidades
+
+	Vamos criar uma biblioteca para fazer cálculos matemáticos.
+
+	
