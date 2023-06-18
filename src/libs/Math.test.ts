@@ -1,7 +1,7 @@
 import { Math } from './Math';
 
 // Grupo de testes
-describe('Testando a biblioteca Math', () => {
+describe('Testing Math library', () => {
     // One Test
     it('should sum two numbers correctly', () => {
         const response = Math.sum(5, 10);
@@ -27,10 +27,4 @@ describe('Testando a biblioteca Math', () => {
         const response2 = Math.div(3, 0);
         expect(response2).toBe(false);
     });
-});
-
-// Forma separada...
-it('should divide two numbers correctly', () => {
-    const response2 = Math.div(3, 0);
-    expect(response2).toBe(false);
 });
