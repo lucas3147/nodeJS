@@ -959,4 +959,64 @@ CRIANDO MEU PRIMEIRO TESTE
 
 	Vamos criar uma biblioteca para fazer cálculos matemáticos.
 
-	
+TIPOS DE MATCHES
+
+	it.Only, significa que ele vai dar prioridade a esse teste, e ignorar os outros.
+
+	o toBe é um tipo de MATCHES
+
+	Existem outros tipos...
+
+	TIPOS:
+
+		-toEqual
+
+			Mesma coisa que o toBe();
+
+		-toHaveLength();
+
+			Pega a string ou array retornado, e aplica o .ToLength();
+
+		-toHaveProperty
+
+			Verifica se o objeto possui a propriedade específica.
+
+		-toBeFalsy
+
+			Verifica se o resultado é falso.
+
+		-toBeTruthy
+
+			Verifica se o resultado é true.
+
+		-toBeUndefined
+
+			Verifica se o resultado é undefined.
+
+		-toBeNotUndefined
+
+			Verifica se o resultado não é undefined
+
+		-toBeGreaterThan
+
+			Verifica se o resultado é um número maior que o número do parâmetro.
+
+		-toBeGreaterThanOrEqual
+
+			Verifica se o resultado é um número maior ou igual que o número do parâmetro.
+
+		-toBeLessThan
+
+			Verifica se o resultado é um número menor que o número do parâmetro.
+
+		-toBeLessThanOrEqual
+
+			Verifica se o resultado é um número menor ou igual que o número do parâmetro.
+
+		-toMatch
+
+			Verifica se a string está dentro da expressão regular que definimos no parâmetro.
+
+		-toThrow
+
+			Verifica se o resultado é um erro.
