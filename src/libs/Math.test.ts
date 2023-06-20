@@ -2,6 +2,23 @@ import { Math } from './Math';
 
 // Grupo de testes
 describe('Testing Math library', () => {
+
+    beforeEach(() => {
+        //bla bla bla
+    });
+
+    afterEach(() => {
+        //bla bla bla
+    });
+
+    beforeAll(() => {
+        //bla bla bla
+    });
+
+    afterAll(() => {
+        //bla bla bla
+    });
+
     // One Test
     it('should sum two numbers correctly', () => {
         const response = Math.sum(5, 10);

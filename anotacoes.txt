@@ -1020,3 +1020,33 @@ TIPOS DE MATCHES
 		-toThrow
 
 			Verifica se o resultado é um erro.
+
+LIFECYCLE PARA TESTES
+
+	LifeCycle é manipular os dados que estamos verificando por exemplo, limpando algum dado por exemplo.
+
+	Existem quatro funções que auxiliam a gente nesse processo:
+
+		- beforeEach(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada antes de cada teste. Antes de cada teste, ela será executada uma vez.
+
+		- afterEach(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada depois de cada teste. depois de cada teste, ela será executada uma vez.
+
+		- beforeAll(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada uma vez antes de qualquer teste. Será executada uma vez antes do primeiro teste.
+
+		- afterAll(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada uma vez depois de qualquer teste. Será executada uma vez depois do último teste.
