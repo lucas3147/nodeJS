@@ -8,7 +8,7 @@ export const createUser = async (email: string, password: string) => {
         const hash = bcrypt.hashSync(password, 10);
         const newUser = await User.create({
             email,
-            password
+            password: hash
         });
         return newUser;
     } else {
