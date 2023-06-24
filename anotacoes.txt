@@ -1062,3 +1062,39 @@ CRIANDO SERVICES NA API BASE
 		npm install bcrypt
 
 		npm install -D @types/bcrypt
+
+PREPARANDO AMBIENTE PARA TESTES NO BANCO DE DADOS
+
+	Existe duas maneiras para conseguirmos fazer requisições com o banco de dados para testes
+
+	1ª - Criamos um banco de dados apenas para testes, podemos fazer isso com migration, e todas as nossas tabelas dos models, irá para ele
+
+	2ª - Menos usada. É fazer uma aplicação que quando requisitarmos o nosso banco, ele irá, entender que a requisição é para testes
+
+	Vamos fazer da primeira maneira.
+
+	Perceba que no package.json, adicionamos um script:
+
+		set NODE_ENV=test& jest --runInBand
+
+		Criamos uma variável de ambiente que utilizamos para determinar se aquela execução está em produção ou em banco de dados de homologação;
+
+	Feito isso.
+
+	Vamos criar novas variáveis de ambiente no .env:
+
+		PG_TEST_DB=postgres
+		PG_TEST_USER=postgres
+		PG_TEST_PASSWORD=1234
+		PG_TEST_PORT=5432
+
+	Vamos precisar ir na instância de conexão pg.ts
+
+	O sequelize possui o seu próprio migration.
+
+CRIANDO TESTES PARA O SERVICE
+
+	Siga o código para ver os nossos testes no services
+
+	Muito bom! Gostei muito. Aprovado.
+		
