@@ -1050,3 +1050,15 @@ LIFECYCLE PARA TESTES
 		});
 
 		// É uma função que será executada uma vez depois de qualquer teste. Será executada uma vez depois do último teste.
+
+CRIANDO SERVICES NA API BASE
+
+	Já entendemos o funcionamento da pasta services em cursos diferentes como MVC com Asp .Net corre
+
+	Tivemos que intalar uma biblioteca de criptografia, para gerarmos uma senha criptografada no banco de dados.
+
+	INSTALANDO:
+
+		npm install bcrypt
+
+		npm install -D @types/bcrypt
