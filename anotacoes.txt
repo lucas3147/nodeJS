@@ -1098,3 +1098,26 @@ CRIANDO TESTES PARA O SERVICE
 
 	Muito bom! Gostei muito. Aprovado.
 		
+PREPARANDO AMBIENTE PARA TESTES DE REQUISIÇÃO
+
+	Agora vamos testar quando requisitarmos numa rota.
+
+	Preparando ambiente:
+
+		- Não vamos requisitar na porta localhost.
+
+		- Vamos usar uma biblioteca chamada super Teste. Com ela, conseguimos, gerar um servidor 
+		para testarmos o que quisermos com ele.
+
+			INSTALANDO:
+
+				npm install -D supertest @types/supertest
+
+		- Na última linha do server.ts, não vamos mais escutar a porta da variável de ambiente no .env
+		, agora vamos exportar o server.ts
+
+		- Renomeamos o server.ts para app.ts, queé o começo da nossa aplicação.
+
+		- Criamos um novo arquivo chamado server.ts, que importa o app.ts e o dotenv.
+
+		- finalizando, criamos o arquivo de teste api.test.ts para testarmos as nossas rotas;
