@@ -1121,3 +1121,7 @@ PREPARANDO AMBIENTE PARA TESTES DE REQUISIÇÃO
 		- Criamos um novo arquivo chamado server.ts, que importa o app.ts e o dotenv.
 
 		- finalizando, criamos o arquivo de teste api.test.ts para testarmos as nossas rotas;
+
+TESTANDO TODOS OS ENDPOINTS
+
+	Como nossas rotas fazem requisições com o banco de dados, vamos puxar o model 

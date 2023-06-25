@@ -12,11 +12,10 @@ export const register = async (req: Request, res: Response) => {
         const newUser = await UserService.createUser(email, password);
 
         if (newUser instanceof Error) {
-            res.json({ error: newUser.message });
+            return res.json({ error: newUser.message });
         } else {
             res.status(201);
-            res.json({id: newUser.id});
-            return;
+            return res.json({id: newUser.id});
         }
     }
 
