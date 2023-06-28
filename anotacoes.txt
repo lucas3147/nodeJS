@@ -1,0 +1,1127 @@
+FERRAMENTAS/BIBLIOTECAS PARA AJUDAR A PROGRAMAR OS NOSSOS PROJETOS:
+
+	npm install --save-dev @types/node
+
+	Ele cria a pasta chamada node_modules
+
+	Por ser uma pasta pesada, não é recomendado subir ela para o repositório, pode excluir e rodar 
+	o coomando "npm install" que ele vai ler as dependências do projeto incluídas no tsconfig e restaurar 
+	os arquivos
+
+REMOVER ÚLTIMO COMMIT
+
+	Muito cuidado, que o git irá apagar as alterações dos seus arquivos
+
+	git reset --hard HEAD
+
+SCRIPTS DO PACKAGE.JSON
+
+	Podemos colocar dentro desse objeto, podemos colocar atalhos para executar comandos
+
+ENTENDENDO IMPORT/EXPORT EM COMMONJS
+
+	Existem duas formas de trabalhar com Import/Export
+
+	MODOS DE IMPORTAÇÃO E EXPORTAÇÃO:
+
+	IMPORTAÇÃO
+
+		Clássico:
+
+			const Object = require('./caminho');
+
+		Moderno
+
+			Import * as Object from './caminho'		(importa tudo)
+
+			Import {function1, function2, function3} from './caminho'
+
+			Import Object from './caminho'
+
+	EXPORTAÇÃO
+
+		Clássico:
+
+			module.exports.function1 = function1
+			module.exports.function2 = function2
+
+		Moderno
+
+			exports function function_name() {
+
+			}
+
+			export default Object_name {
+				property1,
+				property2,
+				property3,
+			}
+
+IMPORTANDO ARQUIVOS TERCEIROS
+
+	baixamos a biblioteca, digitando no terminal:
+
+		npm install validator
+
+	Depois importar
+
+		import Validator from 'validator'
+
+	Algumas bibliotecas disponiblizam a intalação para auxilios de tipos com o typescript
+
+		npm install --save-dev @type/validator
+
+CONHECENDO O NODEMON
+
+	Biblioteca de monitoramento de arquivos, ao modificar um arquivo ela roda novamente,
+	facilita para não termos que o código javascript toda vez que alteramos algo
+
+USANDO NODEMON COM TYPESCRIPT
+
+	Vamos agora diminuir a quantidade de terminais que usamos num projeto
+
+	A partir de agora, ao invés de usarmos 2 terminais, vamos usar apenas um, com a biblioteca ts-node
+
+	INSTALANDO
+
+		npm install -g ts-node
+
+	COMO USAR..
+
+		Podemos usá-lo para rodar códigos typescript ao invés de javascript, co ts-node
+
+			ts-node src/index.ts
+
+	Porém ainda não é o que queremos! Precisamos de algo que faça o mesmo, porém monitorando as alterações
+	feitas nos arquivos.
+
+	Isso é possível com a nova versão do nodemon, use o comando:
+
+		nodemon src/index.ts
+
+			Quando o nodemon indentificar o arquivo typescript, ao invés de ele rodar o comando node,
+			ele irá rodar o comando ts-node!
+
+INSTALANDO O EXPRESS E CRIANDO UM SERVIDOR
+
+	Express é uma biblioteca que nós conseguimos criar os nossos próprios servidores, em formato de arquivos typescript
+	para controlar o gerenciamento da nossa aplicação, desde o controle da porta, até funcões globais do nosso sistema
+
+	INSTALANDO...
+
+		npm install express
+
+	CÓDIGO DA AULA:
+
+		import express, { Request, Response } from 'express';
+
+		const server = express();
+
+		server.get('/', (req: Request, res: Response) => {
+				res.send('Olá Mundo');
+		})
+
+		server.listen(80);
+
+TEORIA DAS ROTAS
+
+	-- Definindo rotas
+	server.get('/contato', (req: Request, res: Response) => {
+		res.send('Esta é a página de contato');
+	})
+
+TRABALHANDO COM ROTAS
+
+	Podemos utilizar os métodos GET, POST, PUT E DELETE nas nossas rotas
+	
+		// GET, POST, PUT, DELETE
+		server.post('/', (req: Request, res: Response) => {
+			res.send('Olá Mundo');
+		})
+
+	Separando dados na Url
+
+	server.get('/noticia:slug', (req: Request, res: Response) => {
+		let slug: string = req.params.slug;
+		res.send(`Notícia: ${slug}`);
+	});
+
+	server.get('/voo/:origem-:destino', (req:Request, res:Response) => {
+    	let { origem, destino } = req.params;
+
+    	res.send(`Procurando voos de ${origem} até ${destino}`);
+	});
+
+SEPARANDO AS ROTAS NO SEU LUGAR
+
+	Criamos uma pasta chamada Routes para organizar nossas ROTAS
+
+	Para definirmos diferentes rotas no nosso projeto devemos no arquivo server.ts ter o seguinte:
+
+		import express, { Request, Response } from 'express';
+		import mainRoutes from './routes/index';
+		import painelRoutes from './routes/painel';
+
+		const server = express();
+
+		server.use('/', mainRoutes);
+		server.use('/painel', painelRoutes);
+
+		server.listen(80);
+
+CRIANDO O 404 (PÁGINA NÃO ENCONTRADA)
+
+	Ao final das rotas se não for encontrado nada podemos...:
+
+		server.use((req: Request, res: Response) => {
+			res.status(404).send('Página não encontrada');
+		})
+
+	Para tratar o status 404
+
+PASTA PÚBLICA E ARQUIVOS ESTÁTICOS
+
+	Para acessarmos no navegador a pasta pública do nosso projeto 
+	sem que tenho que definir uma rota programaticamente em server.ts, podemos adicionar o seguinte em server.ts:
+
+		server.use(express.static('public'));
+
+	Porém... dependendo de onde iniciarmos o nosso server.ts, seja na pasta c:/ ou c:/lucas/projetos/nodeJS/server.ts
+	irá dar conflito, pois a estrutura das pastas é diferente. Para que a estrutura das pastas raiz seja fixa precisamos fazer o seguinte...
+
+		import path from 'path';
+
+		server.use(express.static(path.join(__dirname, '../public')));
+
+		--__dirname é uma constante que especifica a pasta onde está o server.ts
+
+INTRODUZINDO TEMPLATE ENGINES
+
+	O template Engines nos permite retornar o arquivo html para as rotas que definimos no nosso server.ts
+
+	Template Engines são bibliotecas, e existem vários:
+
+		- Pug    (biblioteca remomendada pelo Express)  -- Não recomenado pelo Bonieky
+		- mustache 										-- Remomendado pelo Bonieky
+		- Edge											-- É um template Engine utilizado pelo AdonisJS que é um framework mais robusto que o Express
+		- EJS (Embedded JavaScript templates)			
+
+	Como a utilizamos?
+
+		router.get('/', (req: Request, res: Response) => {
+			//pegar os produtos do banco de dados
+			//organizar as informações desses produtos
+			//envia para o template engine
+			res.send(index.html);
+		});
+
+INSTALANDO E CONFIGURANDO O MUSTACHE
+
+	npm install mustache-express
+
+	npm install --save-dev mustache-express
+
+	Seguindo esses arquivos, você consegue entender os passos para renderizar o html utilizando o mustache
+
+	IMPORTANTE...
+
+		O nodemon não consegue monitorar arquivos com formato .mustache, apenas .ts e .JSON
+
+		para isso precisamos alterar em package.json em start-dev e colocar o comando: -e ts,json,mustache
+
+			nodemon -e ts,json,mustache src/server.ts
+
+MUSTACHE: EXIBINDO INFORMAÇÕES
+
+	Agora vamos trabalhar com variáveis no mustache, para isso, precisamos entender:
+
+	RENDER
+
+		ele tem 2 parâmetros principais
+
+		O primeiro é nome do arquivo .mustache
+
+		O segundo é um objeto com as informações que a gente quer enviar
+
+MUSTACHE: EXIBIÇAO CONDICIONAL
+
+	{{#showOld}}
+        O {{name}} {{lastName}} é maior de idade
+    {{/showOld}}
+
+	Se o showOld for verdadeiro ele exibe a informação abaixo, se não não!
+
+MUSTACHE: EXIBINDO LISTAS (LOOP)
+
+	Percorrendo objetos:
+
+		{{#products}}
+            <li>{{ title }} - Preço: R$ {{ price }}</li>
+        {{/products}}
+
+		as propriedades dos objetos podemos acessar escrevendo o nome da sua propriedade, não precisando referenciar o objeto novamente
+
+	Percorrendo vetores simples
+
+		{{#tarefas}}
+            <li>{{ . }}</li>
+        {{/tarefas}}
+
+		Coloque o ponto para acessar os valores do array
+
+MUSTACHE: ELSE DE LISTAS
+
+	Para utilizar o else basta trocar o jogo da velha (#) por ^
+
+		{{^tarefas}}
+            Nenhuma tarefa encontrada :)
+        {{/tarefas}}
+
+MUSTACHE: CONTEÚDO PARCIAL
+
+	Você já sabe sobre esse CONTEÚDO, olha a sintaxe do código para relembrá-lo
+
+	Só uma coisa, aqui não há necessidade de se passar a variável para o partial views, dependendo do contexto
+	ele pode usar as variáveis do arquivo principal que o chamou
+
+RECEBENDO DADOS NA URL 1
+
+	Se enviarmos uma informação de um formulário com o método GET, ele atualiza a pagina e coloca as informações na Url
+
+	Contudo, tudo que quisermos pegar de uma página por meio de requisições, devemos manipular o req: Request
+
+	Tudo que vem depois do ponto de interrogação chama-se queryString, é possível pegar da seguinte forma:
+
+		console.log('query string', req.query)
+
+RECEBENDO DADOS VIA POST
+
+	Antes de fazer isso, temos que configurar o arquivo server.ts
+
+	Antes de adicionarmos as rotas no nosso servidor, temos que definir o seguinte código...
+
+		server.use(express.urlencoded({extended: true}))
+
+		Ele habilita o retorno do corpo da requisição POST, e permite manipular os dados contidos no body dentro da sua respectiva rota
+
+INTRODUÇÃO À MVC
+
+	--Já estudamos, siga o código
+
+VARIÁVEIS DE AMBIENTE 
+
+	É um arquivo sem e nome com extensão .env
+
+	Ele guarda as variáveis de ambiente das nossas aplicações
+
+	Conseguimos pegar a informação das portas por exemplo dentro desse arquivo
+
+	Assim, dependendo do local em que estamos usando a aplicação, podemos usar portas diferentes com a mesma aplicação, porque o arquivo .env 
+	vai estar em contextos diferentes
+
+	Para conseguirmos pegar as informações contidas nele, precisamos...
+	
+		instalar uma biblioteca chamada dotEnv:
+
+			npm install dotenv
+
+		iniciar uma função chamada config():
+
+			dotenv.config();
+
+		Pegando...
+
+			process.env.PORT
+			// process é um objeto do node
+
+	Podemos utilizar essa técnica para um banco de dados por exemplo...
+
+MYSQL VS POSTGRESQL
+
+	- Os ois são open-source, mas o Postgre é mais
+	- Suportam todos* os SO e linguagens. * todos é uma generalição
+
+	-- QUEM USA?
+
+	-- MYSQL
+
+	-- Facebook
+	-- Google
+	-- GitHub
+	-- NASA
+	-- NetFlix
+
+
+	-- POSTGRESQL
+	-- Apple
+	-- Facebook
+	-- Instagram
+	-- Skype
+	-- Spotify
+
+	MYSQL não é case-sensitive
+	PostgreSQL é case-sensitive
+
+	---------- PERFORMANCE --------- 
+
+	Geralmente para grandes volumes ou consultas complexas, 
+	o PostgreeSQL tende a ser um pouco mais rápido.
+
+	MYSQL geralmente é mais rápido para pequenos volumes OU consultas simples.
+
+INSTALANDO LIB E CONFIGURANDO O UPLOAD
+
+	Intalando:
+
+		npm install multer
+
+ENTENDENDO O QUE É CORS
+
+	CORS: Cross-Origin Resource Sharing
+
+	Troca de recursos de origens diferentes
+
+	Qualquer sistema que faz requisições à outros sistemas, ele tem junto dele a origem da política do CORS
+
+	Ela bloqueia, por padrão, que você faça requisições de uma url para outra url com o domínio diferente, a não ser que 
+	no sistema que está sendo requisitado permita o acesso dos recursos aos sites/sistemas.
+
+	Existem outros meios de bloqueiar os recursos... Como por exemplo permitir que apenas alguns métodos (GET, POST, PUT, DELETE ...) possam ser disponibilizados
+
+	Get na maioria das vezes é permitido.
+
+	O header (cabeçalho) para liberar uma origem, ou seja, um endereço para ele acessar o meu é O
+	Access-Control-Align-Origin, e a política para liberar um método específico é o Access-Control-Align-Methods
+
+	Prática:
+
+		instalar a biblioteca CORS
+
+			npm install cors
+			npm install -D @types/cors
+
+		importar o cors em server.ts
+
+		Usá-lo em seguida ao iniciar o servidor:
+
+			const server = express();
+
+			server.use(cors());
+
+		Podemos dentro da função cors, colocar um objeto com configurações específicas:
+
+			server.use(cors({
+				origin: 'https://resttesttest.com/',
+				methods: ['GET', 'POST']
+			}));
+
+		Se não colocarmos, ele usa opções padrão:
+
+			- que é liberar as funcionalidades para qualquer origem
+
+BIBLIOTECAS DE UPLOAD MAIS USADAS
+
+	- express-fileupload
+	- Multer
+	- formidable
+
+	Escolhemos a Multer
+
+INSTALANDO LIB E CONFIGURANDO O UPLOAD
+
+	o Multer possui varias configurações, como por exemplo:
+
+		dest: './tmp'		--define o destino
+
+TIPOS DE STORAGE
+
+	Podemos configurar o caminho e nome do arquivo com os comando em api.ts:
+
+	const storageConfig = multer.diskStorage({
+		destination: (req, file, cb) => {
+			cb(null, './tmp');
+		},
+		filename: (req, file, cb) => {
+			let typeExtension = (file.mimetype.slice(file.mimetype.indexOf('/')+1))
+			cb(null, `${file.fieldname}${Date.now()}.${typeExtension}`);
+		}
+	});
+
+	const upload = multer({
+		storage: storageConfig
+
+	});
+
+	Podemos também definir uma configuração, para o arquivo ser recebido apenas com as suas informações, 
+	sem armazenar em lugar Algum
+
+	const upload = multer({
+		storage: multer.memoryStorage()
+	});
+
+	ALERTA!
+
+	Como o memoryStorage salva as informações dos arquivos na memória ram, corre o risco de o usuário derrubar o servidor,
+	caso ele envie um arquivo muito grande no servidor.
+
+VALIDANDO ARQUIVOS DE UPLOAD
+
+	1 - Essa validação não fazemos no controlador. Mas fazemos isso antes de receber esse arquivo
+
+	A validação dos arquivos é feito no método multer() em api.ts.
+
+	criamos uma função chamada fileFilter no objeto que passamos para o método multer.
+
+	essa função aceita três parâmetros, req, file, e cb
+
+	cb é uma função, e aceita dois parâmetros, o primeiro, é para tratar erros, e o segundo o aceite do arquivo, uma variável
+	do tipo boolean
+
+	Função multer():
+
+		const upload = multer({
+			dest: './tmp',
+			fileFilter: (req, file, cb) => {
+				const allowed: string[] = ['image/jpg', 'image/jpeg', 'image/png']
+
+				cb(null, allowed.includes(file.mimetype));
+			}
+		});
+
+	2 - Também podemos filtrar os arquivos pelos seus tamanhos, sejam os conteúdos desses arquivos,
+	seja o nome de uma imagem, e assim por diante...
+
+	Para fazer isso precisamos de outro atributo no nosso objeto, chamado limits...
+
+	Código:
+
+		const upload = multer({
+			dest: './tmp',
+			fileFilter: (req, file, cb) => {
+				const allowed: string[] = ['image/jpg', 'image/jpeg', 'image/png']
+
+				cb(null, allowed.includes(file.mimetype));
+			}
+			limits: { fieldNameSize: 100, ... }
+		});
+
+	limits é um objeto que pode ser preenchido com seus atributos:
+
+	O primeiro atributo é o fieldNameSize:
+
+		Ele define o tamanho máximo em bytes dos nomes que os nossos
+		arquivos podem ter, nesse caso o padrão são 100 bytes, que é 100 caracteres
+
+	o segundo atributo é o fieldSize:
+
+		Ele define o tamanho do conteúdo que o arquivo pode ter. Também colocamos ele em bytes
+
+	Existem mais atributos, mas esses são os principais
+
+LIDANDO COM ERROS DE UPLOAD
+
+	Trataremos os nossos erros em server.ts, se o erro for do multer, vamos tratá-lo também...
+
+	Após o tratamento de erro para as rotas não encontradas, criamos o seguinte trecho de código...
+
+	const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+		res.status(400)//  Bad Request
+
+		if (err instanceof MulterError) {
+			res.json({ error: err.code });
+		} else {
+			res.json( { error: 'Ocorreu algum erro.'} );
+		}
+	}
+
+	server.use(errorHandler);
+
+MANIPULANDO IMAGENS 1
+
+	Para realizar essa manipulação, vamos precisar de uma biblioteca, e a melhor biblioteca para isso segundo o prof, 
+	é a sharp
+
+	Sharp:
+
+		npm install sharp
+
+		npm install -D @types/sharp
+
+		Para usar biblioteca temos alguns métodos importantes:
+
+		await sharp(req.file.path)
+                    .resize(500)
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.filename}.jpg`);
+
+		sharp carrega a imagem de onde quer que ela esteja, seja no buffer (memória, ou num caminho como no caso acima)
+
+		resize, redimensiona a imagem em largura e altura
+
+		toFormat define o formato da imagem
+
+		toFile salva a imagem n caminho que queremos e com o nome que queremos.
+
+MANIPULANDO IMAGENS 2
+
+	Podemos ter mais  configurações no sharp:
+
+	await sharp(req.file.path)
+                    .resize(500, 500, {
+                        fit: sharp.fit.fill
+                    })
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.fieldname}.jpg`);
+
+	veja que resize aceita um objeto como terceiro parâmetro, para distorcermos a imagem a fim de centralizar o conteúdo nela...
+
+	um dos exemplos de distorção é o fill, que centraliza a imagem para caber todo o seu conteúdo independente das medidas serem proporcionais.
+
+	await sharp(req.file.path)
+                    .resize(500, 500, {
+                        fit: sharp.fit.cover,
+						position: 'bottom'
+                    })
+                    .toFormat('jpeg')
+                    .toFile(`./public/media/${req.file.fieldname}.jpg`);
+
+	position centraliza a parte que queremos que ela apareça
+
+DELETANDO IMAGEM TEMPORÁRIA
+
+	Para deletarmos as imagens temporárias que são geradas na pasta ./tmp temos que importar uma biblioteca interna do node chamada:
+
+		fs/promisses
+
+		é um biblioteca que engloba as funções de gerenciamento de arquivos do sistema, só que através promessas
+
+		import { unlink } from 'fs/promises';
+
+	Usando unlink:
+
+		await unlink(req.file.path);
+
+INTRODUÇÃO À AUTENTICAÇÃO
+
+AUTENTICAÇÃO VS AUTORIZAÇÃO
+
+	Autenticação é o ato de SABER QUEM é que está tentando acessar.
+
+	Autorização é o ato de verificar se o OBJETO ou requisitor 
+	pode acessar aquela área específica. 
+
+TIPOS DE AUTENTICAÇÃO
+
+	- Single-factor Authentication = Autenticação de 1 fator.
+
+		Isso significa que o sistema vai se basear em um único fator (que é o usuário e senha) para liberar o acesso daquela área
+
+	- Two-Factor Authentication (2FA) = Autenticação em 2 fatores.
+
+		Nesse tipo, além de colocarmos o usuário e senha, será necessário o preenchimento de uma segunda etapa
+		como por exemplo, um código de verificação enviado pelo e-mail.
+
+	- Multi-factor Authentication (MFA) = Autenticação em múltiplos fatores.
+
+		Existem vários processos para saber quem é a pessoa que está querendo acessar o recursos
+
+	- Sngle Sign-On (SSO) = Autenticação única "universal"
+
+		É como logarmos no google chrome, e acessar o youtube, sem definir o login, pois eles fazem parte da mesma empresa (serviço).
+
+O PRÓXIMO PASSO DA AUTENTICAÇÃO
+
+	Independente do tipo de autenticação, precisamos pensar em como liberar o acesso ao serviço para essa pessoa:
+
+	Principais tipos de retorno:
+
+		- Basic Auth
+
+			Assim que passar pela autenticação, o usuário quando estiver solicitando um serviço do sistema, eu pego aquele usuário e senha e 
+			eu mando junto daquela requisição, a cada requisição eu estou mandando o usuário e senha do perfil.
+
+			Esse usuário e senha são agrupados e criptografados usando o base64
+
+		- OAuth (1 e 2)
+
+			OAuth1 = Usar um terceiro para gerar um token (Exemplo: Login pelo Facebook).
+
+			OAuth2 = OAuth1 + RefreshToken
+
+				Ele é parecido com o OAuth1, porém ele fica esperando de tempo em tempo um novo token
+
+		- JWT (Json Web Token)
+
+			É um processo de autenticação feito pelo próprio sistema, que gera um token e devolve esse token para o servidor.
+
+			Toda vez que requisitarmos um serviço do sistema, será enviado também esse token, e no servidor ele pega esse token e verifica se o token tem autorização naquele
+			serviço
+
+COMANDO PARA INICIAR O POSTGRESQL NO sistema
+
+	pg_ctl -D "C:\Program Files\PostgreSQL\15\data" start
+
+FAZENDO AUTENTICAÇÃO BASIC Auth
+
+	Toda requisição que você fizer, você vai mandar o usuário e senha no header da requisição
+
+	Formato do objeto que devemos enviar no cabeçalho
+
+		{
+			Authorization: {
+				Basic [Código Hash]
+			}
+		}
+	
+	O código Hash deve possuir o usuário e senha transformados em código Base64
+
+JWT: GERANDO O TOKEN 1
+
+	JWT - JSON WEB TOKEN
+
+		Fazemos uma autenticação normal no sistema, ele gera um token, e dentro dele vai ter algumas informações que podemos usar para requisitarmos
+
+		O processo de decodificação do token é feito com uma chave privada.
+
+		Biblioteca para ser instalada:
+
+			npm install jsonwebtoken
+
+			npm install -D @types/jsonwebtoken
+
+		Código gerando o token:
+
+		const token = JWT.sign(
+                {id: user.id, email: user.email},
+                process.env.JWT_SECRET_KEY as string,
+                { expiresIn: '2h'}
+        );
+
+		Parâmetros:
+
+			1 - Informações que o token terá
+			2 - Chave privada no arquivo .env
+			3 - objeto de configuração (definindo que o token irá expirar em 2 horas).
+
+JWT: VALIDANDO O TOKEN
+
+	Diferente do Basic Authentication
+
+	O token é dividido em duas partes:
+
+		- Bearer lksaflkjÇALSKJD
+
+		- Bearer é uma constante para qualquer token, ele nos ajuda dizer qual é tipo de validação que devemos fazer
+
+	Podemos fazer um split no espaço para separa essas informações e guardar em um array, e desserializar esse array e 
+	guardar em variáveis
+
+	
+ENVIANDO E-MAILS COM NODE 1
+
+	Para enviarmos um email vamos utilizar a biblioteca NodeMailer
+
+	instalando:
+
+		npm install nodemailer
+
+	Lembrando que para receber um e-mail, utilizamos a requisição Pop, e para
+	enviarmos um e-mail, utilizamos a requisição SMTP
+
+	Temos 3 passo s para enviarmos um email pelo NodeMailer
+
+	// Passo 1: Configurar o transporter
+
+    let transport = nodemailer.createTransport({
+        host: "sandbox.smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "8b65376b559c41",
+          pass: "********246b"
+        }
+    });
+
+	-- Nesse passo configuramos o servidor SMTP para enviarmos o email
+	-- Estamos utilizando um servidor de testes para enviarmos esses emails
+	-- Para enviarmos o email utilizamos o site mailtrap.io
+	-- No próprio site ele monta o objeto de configuração para enviarmos
+
+    // Passo 2: Configurar a mensagem
+    // Passo 3: Enviar a mensagem
+
+Enviando e-mails com Node 2
+
+	Continuando os passos
+
+	// Passo 1: Configurar o transporter
+
+    let transport = nodemailer.createTransport({
+        host: "sandbox.smtp.mailtrap.io",
+        port: 2525,
+        auth: {
+          user: "8b65376b559c41",
+          pass: "********246b"
+        }
+    });
+
+    // Passo 2: Configurar a mensagem
+
+    let message = {
+        from: 'Roberto Sila <roberto@hotmail.com>',
+        to: 'teste@hotmail.com',
+        subject: 'Assunto leal',
+        html: 'Opa <strong>Teste</strong>, como vai?',
+        text: 'Opa teste, como vai?'
+
+    }
+
+	-- Você pode acessar a configuração da mensagem no site da documentação do nodemailer
+	-- https://nodemailer.com/message/
+
+    // Passo 3: Enviar a mensagem
+
+    let info = await transport.sendMail(message);
+
+    console.log('INFO', info);
+
+	-- Pronto, é só testar!
+
+INTRODUÇÃO A LIB PASSPORT
+
+	Nessa aula vamos começar a utilizar bibliotecas e padrões para autenticação que são
+	utilizados no mundo real...
+
+	Uma das bibliotecas mais utilizadas no mundo para autenticação é a PASSPORT, que suporta diversos servidores
+	e linguagens.
+
+	E com a biblioteca Passport podemos fazer diversos tipós de autenticação
+
+		Os tipos de autenticações são chamados de Strategys (estratégias)
+
+		Site: http://www.passportjs.org/packages/
+
+	INSTALAÇÃO
+
+		npm install passport
+
+		npm install -D @types/passport
+
+	INICIANDO...
+
+	Passo 1 - Definindo a configuração inicial:
+
+		Em server.ts
+
+			import passport from 'passport'
+
+			server.use(passport.initialize);
+
+	Passo 2 - Definindo o tipo de login que eu vou usar:
+
+		- Criar pasta chamada config em src
+
+		- Criar arquivo Ts chamado passport.ts em config
+
+		- Código:
+			//
+			import passport from 'passport';
+
+			passport.use(  ... );
+
+			export default passport;	
+			//
+		
+		// Dentro desse arquivo vamos definir a nossa estratégia de autenticação que queremos usar
+		// Esse arquivo ele puxa o passport, configura o login que eu quero, e depois exporta o passport configurado.
+
+FAZENDO BASIC AUTH COM PASSPORT 1
+
+	Para fazer o Basic Auth com o Passport, vamos precisar de outra biblioteca chamada passport-http
+
+	Instalando:
+
+		npm install passport-http
+		npm install -D @types/passport-http
+
+FAZENDO BASIC AUTH COM PASSPORT 2
+
+	O legal de usar o Passport é que quando ele dá problema, ele se comunica com o ErrorRequestHandler,
+	e podemos pegar essa mensagem para tratar...
+
+FAZENDO JWT COM PASSPORT 1
+
+	Para utilizar a autenticação JWT precisamos instalar a biblioteca passport-JWT
+
+	Instalando:
+
+		npm install passport-jwt
+		npm install -D @types/passport-jwt
+
+	Código:
+
+		const options = {
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			secretOrKey: process.env.JWT_SECRET as string
+		}
+		// Essas duas informações são obrigatórias para o objeto
+		// A primeira informa onde ele deve procurar o token que estamos mandando
+		// A segunda informa a chave de decodificação do token
+		// new JWTStrategy recebe um objeto de configuração para dizermos ao passport como devemos manipular o token
+
+		passport.use(new JWTStrategy(options, async (payload, done) => {
+			// Quando eu receber um JWT o payload já vai ser um objeto, com as informações do token
+			const user = await User.findByPk(payload.id)
+
+			if (user) {
+				return done(null, user);
+			} else {
+				return done(notAuthorizedJson, false);
+			}
+		}));
+
+FAZENDO JWT COM PASSPORT 2
+
+TESTES E TDD
+
+CONFIGURANDO O JEST NO SEU PROJETO
+
+	A biblioteca mais famosa para testes com javascript e typescript é a biblioteca Jest.
+
+	Essa biblioteca também possui integração com o ReactJS
+
+	Site:  
+		https://jestjs.io/pt-BR/
+
+	Como na maioria das vezes os testes não são feitos no ambiente de produção, vamos colocar essa biblioteca 
+	na guia de bibliotecas de desenvolvimentos.
+
+	Além da biblioteca jest, como estamos usando typescript no curso vamos instalar também a biblioteca ts-jest
+
+	Essa biblioteca vai nos auxiliar a usar os nossos testes com typescript
+
+	Instalando:
+
+		npm install -D jest ts-jest @types/jest
+
+	A biblioteca Jest necessita de um arquivo de configuração, para ele saber qual é a forma do teste que eu quero aplicar na aplicação
+
+	Para criar o arquivo de configuração dos testes no nosso projeto, vamos usar o comando:
+
+		npx ts-jest config:init
+
+	Nesse arquivo, vamos colocar as propriedades de configurações que vamos utilizar...
+
+	Eventualmente vamos ter quer usar testes assíncronos, ou seja, testes que vão haver requisições, consulta ao banco de dados.
+
+	Então, para isso, vamos colocar no arquivo de configuração a propriedade que faz ele procurar quando a aplicação tiver requisições em aberto.
+
+		detectOpenHandles: true
+
+	Além disso, no package.json vamos colocar o seguinte comando em script.
+
+		"test": "set NODE_ENV=test& jest --runInBand",
+
+		[set NODE_ENV=test] é um comando que instancia uma variável de ambiente no .env, o valor dela será [test]
+
+		[jest --runInBand] é outro comando que inicia os testes com [jest], e [--runInBand] diz que os testes vão ser feitos um atrás do outro.
+
+	Podemos colocar os nossos testes em qualquer lugar da nossa aplicação, que o Jest vai encontrar, porém, o mais legal seria usar padrões
+
+	PADRÕES:
+
+		TESTES UNITÁRIOS:
+
+			1ª FORMA
+
+				No arquivo em que queremos testar, colocamos outro arquivo na sua pasta local, com o nome [nome_arquivo.test.ts]
+
+			2ª FORMA
+
+				No arquivo em que queremos testar, colocamos uma pasta com o nome [__tests__] e dentro dela , o arquivo [nome_arquivo.test.ts] ou [nome_arquivo.ts]
+
+			3ª FORMA
+
+				Criar uma pasta [tests] na pasta src, dentro dela o arquivo de teste, e importa o arquivo que você quer testar dentro de [nome_arquivo.test.ts].
+
+			Podemos colocar o tipo de teste que você está fazendo no nome do arquivo de teste [nome_arquivo.unit.test.ts]
+
+		TESTES DE INTEGRAÇÃO
+
+			APENAS UMA FORMA:
+
+				Criar uma pasta [tests] na pasta src, dentro dela o arquivo de teste, e importa o arquivo que você quer testar dentro de [nome_arquivo.int.test.ts].
+
+CRIANDO MEU PRIMEIRO TESTE
+
+	Vamos criar um teste simples
+
+	Vamos seguir o conceito de TDD, criando o teste primeiro, depois criar a funcionalidades
+
+	Vamos criar uma biblioteca para fazer cálculos matemáticos.
+
+TIPOS DE MATCHES
+
+	it.Only, significa que ele vai dar prioridade a esse teste, e ignorar os outros.
+
+	o toBe é um tipo de MATCHES
+
+	Existem outros tipos...
+
+	TIPOS:
+
+		-toEqual
+
+			Mesma coisa que o toBe();
+
+		-toHaveLength();
+
+			Pega a string ou array retornado, e aplica o .ToLength();
+
+		-toHaveProperty
+
+			Verifica se o objeto possui a propriedade específica.
+
+		-toBeFalsy
+
+			Verifica se o resultado é falso.
+
+		-toBeTruthy
+
+			Verifica se o resultado é true.
+
+		-toBeUndefined
+
+			Verifica se o resultado é undefined.
+
+		-toBeNotUndefined
+
+			Verifica se o resultado não é undefined
+
+		-toBeGreaterThan
+
+			Verifica se o resultado é um número maior que o número do parâmetro.
+
+		-toBeGreaterThanOrEqual
+
+			Verifica se o resultado é um número maior ou igual que o número do parâmetro.
+
+		-toBeLessThan
+
+			Verifica se o resultado é um número menor que o número do parâmetro.
+
+		-toBeLessThanOrEqual
+
+			Verifica se o resultado é um número menor ou igual que o número do parâmetro.
+
+		-toMatch
+
+			Verifica se a string está dentro da expressão regular que definimos no parâmetro.
+
+		-toThrow
+
+			Verifica se o resultado é um erro.
+
+LIFECYCLE PARA TESTES
+
+	LifeCycle é manipular os dados que estamos verificando por exemplo, limpando algum dado por exemplo.
+
+	Existem quatro funções que auxiliam a gente nesse processo:
+
+		- beforeEach(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada antes de cada teste. Antes de cada teste, ela será executada uma vez.
+
+		- afterEach(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada depois de cada teste. depois de cada teste, ela será executada uma vez.
+
+		- beforeAll(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada uma vez antes de qualquer teste. Será executada uma vez antes do primeiro teste.
+
+		- afterAll(() => {
+			//...lógica...
+		});
+
+		// É uma função que será executada uma vez depois de qualquer teste. Será executada uma vez depois do último teste.
+
+CRIANDO SERVICES NA API BASE
+
+	Já entendemos o funcionamento da pasta services em cursos diferentes como MVC com Asp .Net corre
+
+	Tivemos que intalar uma biblioteca de criptografia, para gerarmos uma senha criptografada no banco de dados.
+
+	INSTALANDO:
+
+		npm install bcrypt
+
+		npm install -D @types/bcrypt
+
+PREPARANDO AMBIENTE PARA TESTES NO BANCO DE DADOS
+
+	Existe duas maneiras para conseguirmos fazer requisições com o banco de dados para testes
+
+	1ª - Criamos um banco de dados apenas para testes, podemos fazer isso com migration, e todas as nossas tabelas dos models, irá para ele
+
+	2ª - Menos usada. É fazer uma aplicação que quando requisitarmos o nosso banco, ele irá, entender que a requisição é para testes
+
+	Vamos fazer da primeira maneira.
+
+	Perceba que no package.json, adicionamos um script:
+
+		set NODE_ENV=test& jest --runInBand
+
+		Criamos uma variável de ambiente que utilizamos para determinar se aquela execução está em produção ou em banco de dados de homologação;
+
+	Feito isso.
+
+	Vamos criar novas variáveis de ambiente no .env:
+
+		PG_TEST_DB=postgres
+		PG_TEST_USER=postgres
+		PG_TEST_PASSWORD=1234
+		PG_TEST_PORT=5432
+
+	Vamos precisar ir na instância de conexão pg.ts
+
+	O sequelize possui o seu próprio migration.
+
+CRIANDO TESTES PARA O SERVICE
+
+	Siga o código para ver os nossos testes no services
+
+	Muito bom! Gostei muito. Aprovado.
+		
+PREPARANDO AMBIENTE PARA TESTES DE REQUISIÇÃO
+
+	Agora vamos testar quando requisitarmos numa rota.
+
+	Preparando ambiente:
+
+		- Não vamos requisitar na porta localhost.
+
+		- Vamos usar uma biblioteca chamada super Teste. Com ela, conseguimos, gerar um servidor 
+		para testarmos o que quisermos com ele.
+
+			INSTALANDO:
+
+				npm install -D supertest @types/supertest
+
+		- Na última linha do server.ts, não vamos mais escutar a porta da variável de ambiente no .env
+		, agora vamos exportar o server.ts
+
+		- Renomeamos o server.ts para app.ts, queé o começo da nossa aplicação.
+
+		- Criamos um novo arquivo chamado server.ts, que importa o app.ts e o dotenv.
+
+		- finalizando, criamos o arquivo de teste api.test.ts para testarmos as nossas rotas;
+
+TESTANDO TODOS OS ENDPOINTS
+
+	Como nossas rotas fazem requisições com o banco de dados, vamos puxar o model 
