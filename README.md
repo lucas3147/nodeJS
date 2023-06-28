@@ -1,7 +1,8 @@
 # node
-Projetos utilizando Node
+Projeto Chat Simples com Socket (Utilizando o Node)
 
-### Dependências e instalações a partir de um projeto do zero
-#### npm --init
-#### tsc --init
-#### npm install express mustache-express dotenv
+### Inicie o projeto com o comando
+#### node server.js
+
+### Intalar dependências
+#### npm install
