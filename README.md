@@ -1,7 +1,8 @@
 # node
-Projetos utilizando Node
+Projeto OLX (backend)
 
-### Dependências e instalações a partir de um projeto do zero
-#### npm --init
-#### tsc --init
-#### npm install express mustache-express dotenv
+### Um clone do olx implementado, bem como as regras de negócios com o back-end
+### Iniciando o projeto
+#### npm start
+### Iniciando o projeto no ambiente de desenvolvimento
+#### npm run start-dev
