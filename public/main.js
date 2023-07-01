@@ -24,7 +24,7 @@ function addMessage(type, user, message) {
     if (type === 'status'){
         ul.innerHTML += `<li class="m-status">${message}</li>`;
     }else if (type === 'msg') {
-        ul.innerHTML += `<li class="m-txt"><span>${user}</span>${message}</li>`;
+        ul.innerHTML += `<li class="m-txt"><span>${user}</span> ${message}</li>`;
     }
 }
 
@@ -35,6 +35,17 @@ loginInput.addEventListener('keyup', (e) => {
             username = name;
             document.title = 'Chat ('+username+')';
             socket.emit('join-request', username);
+        }
+    }
+});
+
+textInput.addEventListener('keyup', (e) => {
+    if (e.keyCode === 13) {
+        let txt = textInput.value.trim();
+        textInput.value = '';
+
+        if (txt != '') {
+            socket.emit('send-msg', txt);
         }
     }
 });
@@ -61,4 +72,8 @@ socket.on('list-update', (data) => {
     userList = data.list;
     renderUserList();
 
+});
+
+socket.on('show-msg', (data) => {
+    addMessage('msg', data.username, data.message);
 });

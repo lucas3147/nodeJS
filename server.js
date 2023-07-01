@@ -30,15 +30,25 @@ io.on('connection', (socket) => {
         // O broadcast é uma mensagem para todos os usuários conectados
         // Exceto o usuário que está requisitando o servidor
         // Por isso eu uso user-ok para ele
+    });
 
-        socket.on('disconnect', () => {
-            connectedUsers = connectedUsers.filter(user => user != socket.username);
+    socket.on('disconnect', () => {
+        connectedUsers = connectedUsers.filter(user => user != socket.username);
 
-            socket.broadcast.emit('list-update', {
-                left: socket.username,
-                list: connectedUsers
-            })
+        socket.broadcast.emit('list-update', {
+            left: socket.username,
+            list: connectedUsers
         });
+    });
+
+    socket.on('send-msg', (txt) => {
+        let obj = {
+            username: socket.username,
+            message: txt
+        };
+
+        socket.emit('show-msg', obj);
+        socket.broadcast.emit('show-msg', obj);
     });
     
 });
