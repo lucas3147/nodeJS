@@ -22,6 +22,23 @@ io.on('connection', (socket) => {
         console.log(connectedUsers);
 
         socket.emit('user-ok', connectedUsers);
+
+        socket.broadcast.emit('list-update', {
+            joined: username,
+            list: connectedUsers
+        });
+        // O broadcast é uma mensagem para todos os usuários conectados
+        // Exceto o usuário que está requisitando o servidor
+        // Por isso eu uso user-ok para ele
+
+        socket.on('disconnect', () => {
+            connectedUsers = connectedUsers.filter(user => user != socket.username);
+
+            socket.broadcast.emit('list-update', {
+                left: socket.username,
+                list: connectedUsers
+            })
+        });
     });
     
 });
