@@ -8,7 +8,7 @@ const modelsSchema = new mongoose.Schema({
 
 const modelName = 'Category';
 
-if (mongoose.connection && mongoose.connection.models(modelName)) {
+if (mongoose.connection && mongoose.connection.models[modelName]) {
     module.exports = mongoose.connection.models[modelName];
 } else {
     module.exports = mongoose.model(modelName, modelsSchema)
