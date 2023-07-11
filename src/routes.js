@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const AuthValidator = require('./validators/AuthValidator')
+const AuthValidator = require('./validators/AuthValidator');
+const UserValidator = require('./validators/UserValidator');
 
 const Auth = require('./middlewares/Auth');
 
@@ -18,7 +19,7 @@ router.post('/user/signin', AuthValidator.signin, AuthController.signin);
 router.post('/user/signup', AuthValidator.signup, AuthController.signup);
 
 router.get('/user/me', Auth.private, UserController.info);
-router.put('/user/me', Auth.private, UserController.editAction);
+router.put('/user/me', UserValidator.editAction, Auth.private, UserController.editAction);
 
 router.get('/categories', AdsController.getCategories);
 
