@@ -1211,3 +1211,11 @@ PLANEJANDO A ESTRUTURA DO BANCO DE DADOS
 		- description
 		- views
 		- status
+
+CRIANDO VALIDATORS
+
+	Para iniciarmos a nossa validação, vamos utilizar uma biblioteca chamada express-validator
+
+	Essa biblioteca funciona como um middleware, toda vez que o usuário requisitar um site, iremos tratar algum tipo de validação.
+
+		npm install express-validator
