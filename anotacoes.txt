@@ -1220,3 +1220,27 @@ CRIANDO VALIDATORS
 	Essa biblioteca funciona como um middleware, toda vez que o usuário requisitar um site, iremos tratar algum tipo de validação.
 
 		npm install express-validator
+
+ADICIONANDO NOVO ANÚNCIO 1 DE 3
+
+	Vamos precisar de duas bibliotecas para subir as imagens que o usuário está mandando dos nossos anúncios
+
+	Uma biblioteca cria códigos identificadores, como um hash para o arquivo
+
+		Biblioteca: uuid
+
+	A outra biblioteca é para minapularmos as imagens, e salvarmos no servidor (já utilizamos ela antes):
+
+		Biblioteca: jimp
+
+	Código utilizando as duas bibliotecas:
+
+		const addImage = async (buffer) => {
+			let newName = `${uuid()}.jpg`;
+			let tmpImg = await jimp.read(buffer);
+			tmpImg.cover(500, 500).quality(80).write(`./public/media/${newName}`)
+			// O cover diminui a imagem proporcionalmente, para que ela não fique distorcida
+			// Mas mesmo assim ela cobre as dimensões 500 x 500 que definimos como parâmetros
+			// quality define o grau de pixels da imagem
+			return newName;
+		}
