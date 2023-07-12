@@ -1,4 +1,4 @@
-const uuid = require('uuid/v4');
+const { v4: uuidv4 } = require('uuid');
 const jimp = require('jimp');
 
 const Category = require('../models/Category');
@@ -6,12 +6,9 @@ const User = require('../models/User');
 const Ad = require('../models/Ad');
 
 const addImage = async (buffer) => {
-    let newName = `${uuid()}.jpg`;
+    let newName = `${uuidv4()}.jpg`;
     let tmpImg = await jimp.read(buffer);
     tmpImg.cover(500, 500).quality(80).write(`./public/media/${newName}`)
-    // O cover diminui a imagem proporcionalmente, para que ela não fique distorcida
-    // Mas mesmo assim ela cobre as dimensões 500 x 500 que definimos como parâmetros
-    // quality define o grau de pixels da imagem
     return newName;
 }
 
@@ -38,6 +35,7 @@ module.exports = {
 
         if (!title || !cat) {
             res.json({error: 'Título e/ou categoria não foram preenchidos'});
+            return;
         }
 
         if(price) {
@@ -60,12 +58,36 @@ module.exports = {
         newAd.description = description;
         newAd.views = 0;
 
-        if (req.files && req.files.img) {
-            if (req.files.img.length == undefined) {
-
-            } else {
-
+        try {
+            if (req.files && req.files.img) {
+                if (req.files.img.length == undefined) {
+                    if (['image/jpeg', 'image/jpg', 'image/png'].includes(req.files.img.mimetype)) {
+                        let url = await addImage(req.files.img.data);
+                        newAd.images.push({
+                            url, 
+                            default: false
+                        });
+                    }
+                } else {
+                    for(let i=0; i < req.files.img.length; i++) {
+                        if (['image/jpeg', 'image/jpg', 'image/png'].includes(req.files.img[i].mimetype)) {
+                            let url = await addImage(req.files.img[i].data);
+                            newAd.images.push({
+                                url, 
+                                default: false
+                            });
+                        }
+                    }
+                }
             }
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+        
+
+        if (newAd.images.length > 0) {
+            newAd.images[0].default = true;
         }
 
         const info  = await newAd.save();
