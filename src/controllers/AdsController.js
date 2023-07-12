@@ -180,6 +180,32 @@ module.exports = {
         let userInfo = await User.findById(ad.idUser).exec();
         let stateInfo = await State.findById(ad.state).exec();
 
+        let others = [];
+        if (other) {
+            const otherData = await Ad.find({status: true, idUser: ad.idUser}).exec();
+
+            for(let i in otherData) {
+                if (otherData[i]._id.toString() != ad._id.toString()) {
+
+                    let image = `${process.env.BASE}/media/default.jpg`;
+
+                    let defaultImg = otherData[i].images.find(e => e.default);
+                    if (defaultImg) {
+                        image = `${process.env.BASE}/media/${defaultImg.url}.jpg`;
+                    }
+
+                    others.push({
+                        id: otherData._id,
+                        title: otherData.title,
+                        price: otherData.price,
+                        priceNegotiable: otherData.priceNegotiable,
+                        image
+                    })
+
+                }
+            }
+        }
+
         res.json({
             id: ad._id,
             title: ad.title,
@@ -194,7 +220,8 @@ module.exports = {
                 name: userInfo.name,
                 email: userInfo.email
             },
-            stateName: stateInfo.name
+            stateName: stateInfo.name,
+            others
         })
     },
     editAction: async (req, res) => {
