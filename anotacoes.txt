@@ -1197,6 +1197,7 @@ PLANEJANDO A ESTRUTURA DO BANCO DE DADOS
 		- _id
 		- name
 		- slug
+		- img
 
 		ads
 		- _id
