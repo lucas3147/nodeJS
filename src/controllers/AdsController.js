@@ -225,7 +225,60 @@ module.exports = {
         })
     },
     editAction: async (req, res) => {
+        let { id } = req.body;
+        let { title, status, price, pricenegotiable, description, category, images, token } = req.body;
 
+        if (id.length < 12) {
+            res.json({error: 'ID Inválido'});
+            return;
+        }
+
+        const ad = await Ad.findById().exec();
+        if (ad) {
+            res.json({error: 'Anúncio inexistente'});
+            return;
+        }
+
+        const user = await User.findOne({token}).exec();
+        if (user._id.toString()) {
+            res.json({error: 'Este anúncio não é seu'});
+            return;
+        }
+
+        let updates = {};
+
+        if (title) {
+            updates.title = title;
+        }
+        if(price) {
+            price = price.replace('.', '').replace(',', '.').replace('R$', '').trim();
+            price = parseFloat(price);
+            updates.price = price;
+        }
+        if (pricenegotiable) {
+            updates.priceNegotiable = pricenegotiable;
+        }
+        if (status) {
+            updates.status = status;
+        }
+        if (description) {
+            updates.description = description;
+        }
+        if (category) {
+            const category = await Category.findOne({slug: category}).exec();
+            if (!category){
+                res.json({error: 'Categoria inexistente'});
+                return;
+            }
+            updates.category = category._id.toString();
+        }
+        if (images) {
+            updates.images = images;
+        }
+        
+        await Ad.findByIdAndUpdate(id, {$set: updates});
+
+        res.json({error: ''});
     },
 
 };
